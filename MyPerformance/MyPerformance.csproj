@@ -49,6 +49,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\clock.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Folder Include="Views\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="ViewModels\" />

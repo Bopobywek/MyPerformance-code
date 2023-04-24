@@ -10,6 +10,6 @@ namespace MyPerformance.Models
     {
         public string Name { get; set; }
         public TimeSpan Duration { get; set; } = new TimeSpan(0, 2, 3);
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = new DateTime(2023, 3, 5);
     }
 }

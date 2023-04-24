@@ -2,42 +2,77 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyPerformance.Models"
-             x:Class="MyPerformance.MainPage">
+             x:Class="MyPerformance.MainPage"
+             Shell.NavBarIsVisible="False">
 
-    <CollectionView ItemsLayout="VerticalList">
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type local:PerformanceModel}">
-                <local:PerformanceModel Name="Защита курсовой"/>
-                <local:PerformanceModel Name="Защита курсовой"/>
-                <local:PerformanceModel Name="Защита курсовой"/>
-                <local:PerformanceModel Name="Защита курсовой"/>
-
-            </x:Array>
-        </CollectionView.ItemsSource>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="local:PerformanceModel">
-                <Grid Padding="20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0"
-                       Text="{Binding Name}"
+    <Grid Padding="0,5,0,5" BackgroundColor="#FEFCFB">
+        <CollectionView HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type local:PerformanceModel}">
+                    <local:PerformanceModel Name="Защита курсовой"/>
+                    <local:PerformanceModel Name="Защита курсовой"/>
+                </x:Array>
+            </CollectionView.ItemsSource>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:PerformanceModel">
+                    <Border StrokeThickness="0" HeightRequest="127" Margin="20,0,20,0" BackgroundColor="#a6e1fa">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Grid Padding="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.ColumnSpan="2"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Text="{Binding Name}"
+                                   MaximumWidthRequest="220"
+                                   FontFamily="NunitoBold"
+                                   FontAutoScalingEnabled="True"
+                                   FontSize="24"
+                                   FontAttributes="Bold" />
+                            <Image Grid.Column="0"
+                                   Grid.Row="1"
+                                   Source="clock.png"
+                                   HeightRequest="20" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Text="{Binding Duration}"
+                                   FontAttributes="Bold" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="2"
+                       Text="{Binding Date, StringFormat='{0:yyyy/MM/dd}'}"
                        FontAttributes="Bold" />
-                    <Label Grid.Column="0" Grid.Row="1"
-                       Text="{Binding Duration}"
-                       FontAttributes="Bold" />
-                    <Label Grid.Column="0" Grid.Row="2"
-                       Text="{Binding Date}"
-                       FontAttributes="Bold" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Button
+                    Opacity="70"
+                    HeightRequest="127"
+                    CornerRadius="20"
+                    Margin="20,0,20,0"
+                    BackgroundColor="#A6E1FA"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill">
+                    <Button.Text>
+                        Создать новое выступление
+                    </Button.Text>
+                </Button>
+            </CollectionView.Footer>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
