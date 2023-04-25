@@ -3,26 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyPerformance.Models"
              x:Class="MyPerformance.MainPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
 
-    <Grid Padding="0,5,0,5" BackgroundColor="#FEFCFB">
-        <CollectionView HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+    <Grid BackgroundColor="#FEFCFB">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <CollectionView Grid.Row="0"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Center">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemsSource>
                 <x:Array Type="{x:Type local:PerformanceModel}">
                     <local:PerformanceModel Name="Защита курсовой"/>
-                    <local:PerformanceModel Name="Защита курсовой"/>
+                    <local:PerformanceModel Name="Маленький питч"/>
+                    <local:PerformanceModel Name="1Защита курсовой"/>
+                    <local:PerformanceModel Name="1Маленький питч"/>
+                    <local:PerformanceModel Name="2Защита курсовой"/>
+                    <local:PerformanceModel Name="2Маленький питч"/>
+                    <local:PerformanceModel Name="3Защита курсовой"/>
                 </x:Array>
             </CollectionView.ItemsSource>
+            <CollectionView.Header>
+                <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
+            </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:PerformanceModel">
-                    <Border StrokeThickness="0" HeightRequest="127" Margin="20,0,20,0" BackgroundColor="#a6e1fa">
+                    <Border StrokeThickness="0" HeightRequest="127" Margin="30,0,30,0" BackgroundColor="#a6e1fa">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20" />
+                            <RoundRectangle CornerRadius="15" />
                         </Border.StrokeShape>
-                        <Grid Padding="20">
+                        <Grid Padding="20" RowSpacing="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -32,6 +48,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.ColumnSpan="2"
                                    Grid.Column="0"
@@ -42,29 +59,41 @@
                                    FontAutoScalingEnabled="True"
                                    FontSize="24"
                                    FontAttributes="Bold" />
-                            <Image Grid.Column="0"
-                                   Grid.Row="1"
+                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
+                                <Image 
                                    Source="clock.png"
                                    HeightRequest="20" />
-                            <Label Grid.Column="1"
-                                   Grid.Row="1"
+                                <Label
+                                   Margin="5,0,0,0"
                                    Text="{Binding Duration}"
+                                   FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
-                            <Label Grid.Column="1"
-                                   Grid.Row="2"
-                       Text="{Binding Date, StringFormat='{0:yyyy/MM/dd}'}"
-                       FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
+                                <Image 
+                                   Source="calendar.png"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
+                                    FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>
                 <Button
-                    Opacity="70"
+                    Opacity="20"
                     HeightRequest="127"
-                    CornerRadius="20"
-                    Margin="20,0,20,0"
-                    BackgroundColor="#A6E1FA"
+                    CornerRadius="15"
+                    Margin="30,0,30,5"
+                    BackgroundColor="#80A6E1FA"
+                    TextColor="#80000000"
+                    FontAutoScalingEnabled="True"
+                    FontFamily="NunitoBold"
+                    FontSize="16"
                     VerticalOptions="Center"
                     HorizontalOptions="Fill">
                     <Button.Text>
@@ -73,6 +102,37 @@
                 </Button>
             </CollectionView.Footer>
         </CollectionView>
+        <Border Grid.Row="1" Margin="10,0,10,20" StrokeThickness="0" BackgroundColor="#1282A2">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="15" />
+            </Border.StrokeShape>
+            <Grid Padding="20"
+                  ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button HeightRequest="80"
+                        WidthRequest="80"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Grid.Column="0">
+                </Button>
+                <Button HeightRequest="80"
+                        WidthRequest="80"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Grid.Column="1">
+                </Button>
+                <Button HeightRequest="80"
+                        WidthRequest="80"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Grid.Column="2">
+                </Button>
+            </Grid>
+        </Border>
     </Grid>
 
 </ContentPage>
