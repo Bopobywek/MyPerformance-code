@@ -1,40 +1,60 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyPerformance.Models"
-             x:Class="MyPerformance.MainPage"
-             Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False">
-
-    <Grid BackgroundColor="#FEFCFB">
+             x:Class="MyPerformance.Views.PerformancePage"
+             Title="PerformancePage">
+    <Grid Padding="20,5,20,5" RowSpacing="10" BackgroundColor="#FEFCFB">
         <Grid.RowDefinitions>
-            <RowDefinition Height="8*" />
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="65*" />
+            <RowDefinition Height="15*" />
         </Grid.RowDefinitions>
-        <CollectionView Grid.Row="0"
-                        VerticalScrollBarVisibility="Never"
-                        HorizontalOptions="StartAndExpand"
-                        VerticalOptions="Center">
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <VerticalStackLayout Grid.Column="0">
+                <Entry Placeholder="Название"
+                       x:Name="NameInput"
+                       FontFamily="NunitoBold"
+                       FontSize="24"
+                       IsTextPredictionEnabled="True" />
+                <BoxView CornerRadius="5" HeightRequest="3"
+                        VerticalOptions="Center"
+                        Opacity="0.8"
+                        Color="Black" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="0,0,10,0" CornerRadius="15" Grid.Column="0" Text="План" />
+            <Button Margin="10,0,0,0" CornerRadius="15" Grid.Column="1" IsEnabled="False" Text="Таймер" />
+
+        </Grid>
+        <CollectionView Grid.Row="2">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type local:PerformanceModel}">
-                    <local:PerformanceModel Name="Защита курсовой"/>
-                    <local:PerformanceModel Name="Маленький питч"/>
-                    <local:PerformanceModel Name="1Защита курсовой"/>
-                    <local:PerformanceModel Name="1Маленький питч"/>
-                    <local:PerformanceModel Name="2Защита курсовой"/>
-                    <local:PerformanceModel Name="2Маленький питч"/>
-                    <local:PerformanceModel Name="3Защита курсовой"/>
+                <x:Array Type="{x:Type local:PerformancePartModel}">
+                    <local:PerformancePartModel Name="Hell1o" Description="World" />
+                    <local:PerformancePartModel Name="Hell2o" Description="Worlddfskjflsdjflkdfdsfsdklfjklsdjflkjsdfkjsdlkfjsjfljdsfldsflskdjfdslfjdlsfjsdlfkjsdlfjsdljflsdkfjsdlf" />
+                    <local:PerformancePartModel Name="Hell3o" Description="World" />
+                    <local:PerformancePartModel Name="Hell4o" Description="World" />
                 </x:Array>
             </CollectionView.ItemsSource>
-            <CollectionView.Header>
-                <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
-            </CollectionView.Header>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="local:PerformanceModel">
-                    <Border StrokeThickness="0" HeightRequest="127" Margin="30,0,30,0" BackgroundColor="#a6e1fa">
+                <DataTemplate x:DataType="local:PerformancePartModel">
+                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="15" />
                         </Border.StrokeShape>
@@ -54,28 +74,30 @@
                                    Grid.Column="0"
                                    Grid.Row="0"
                                    Text="{Binding Name}"
-                                   MaximumWidthRequest="220"
+                                   LineBreakMode="TailTruncation"
+                                   WidthRequest="220"
                                    FontFamily="NunitoBold"
                                    FontAutoScalingEnabled="True"
                                    FontSize="24"
                                    FontAttributes="Bold" />
                             <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Description}"
+                                    WidthRequest="220"
+                                   LineBreakMode="WordWrap"
+                                   FontAutoScalingEnabled="True"
+                                    HorizontalOptions="StartAndExpand"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
                                 <Image 
                                    Source="clock.png"
                                    HeightRequest="20" />
                                 <Label
                                    Margin="5,0,0,0"
                                    Text="{Binding Duration}"
-                                   FontFamily="NunitoBold"
-                                   FontAttributes="Bold" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
-                                <Image 
-                                   Source="calendar.png"
-                                   HeightRequest="20" />
-                                <Label
-                                   Margin="5,0,0,0"
-                                   Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>
@@ -95,44 +117,15 @@
                     FontFamily="NunitoBold"
                     FontSize="16"
                     VerticalOptions="Center"
-                    HorizontalOptions="Fill">
+                    HorizontalOptions="Fill"
+                    Command="{Binding AddCommand}">
                     <Button.Text>
-                        Создать новое выступление
+                        Добавить новую часть
                     </Button.Text>
                 </Button>
             </CollectionView.Footer>
         </CollectionView>
-        <Border Grid.Row="1" Margin="10,0,10,20" StrokeThickness="0" BackgroundColor="#1282A2">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="15" />
-            </Border.StrokeShape>
-            <Grid Padding="20"
-                  ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button HeightRequest="80"
-                        WidthRequest="80"
-                        CornerRadius="15"
-                        BackgroundColor="#A6E1FA"
-                        Grid.Column="0">
-                </Button>
-                <Button HeightRequest="80"
-                        WidthRequest="80"
-                        CornerRadius="15"
-                        BackgroundColor="#A6E1FA"
-                        Grid.Column="1">
-                </Button>
-                <Button HeightRequest="80"
-                        WidthRequest="80"
-                        CornerRadius="15"
-                        BackgroundColor="#A6E1FA"
-                        Grid.Column="2">
-                </Button>
-            </Grid>
-        </Border>
+        <Button Grid.Row="3" Margin="10,0,10,20" BackgroundColor="#1282A2" Text="Сохранить" />
     </Grid>
 
 </ContentPage>

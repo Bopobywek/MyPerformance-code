@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyPerformance.Views.PerformancePartPage"
+             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             Title="PerformancePartPage">
+    <ScrollView>
+
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <VerticalStackLayout >
+                <Entry Placeholder="Название"
+                       x:Name="NameInput"
+                       FontFamily="NunitoBold"
+                       FontSize="24"
+                       IsTextPredictionEnabled="True" />
+                <BoxView CornerRadius="5" HeightRequest="3"
+                        VerticalOptions="Center"
+                        Opacity="0.8"
+                        Color="Black" />
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Editor Placeholder="Заметка"
+                        FontAutoScalingEnabled="True"
+                    AutoSize="TextChanges"
+                    FontFamily="NunitoBold"
+                    MaxLength="256"
+                    WidthRequest="{Binding Source={x:Reference NameInput}, Path=Width}"/>
+            </VerticalStackLayout>
+            <Border HeightRequest="120" StrokeThickness="2">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+                <HorizontalStackLayout Padding="10" Spacing="10" VerticalOptions="Center">
+                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label FontSize="60" Text=":" />
+                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label FontSize="60" Text=":" />
+                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                </HorizontalStackLayout>
+            </Border>
+            <StackLayout Orientation="Horizontal">
+                <Border
+                HeightRequest="100"
+                   WidthRequest="100"
+                VerticalOptions="Start">
+                    <controls:ColorPicker 
+                    x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                    ColorSpectrumStyle="TintToHueToShadeStyle"
+                    PointerRingBorderUnits="0.3"
+                    PointerRingDiameterUnits="0.7"
+                    PickedColorChanged="ColorPicker_PickedColorChanged">
+                    </controls:ColorPicker>
+                </Border>
+                <Border x:Name="ColorResult"
+                    WidthRequest="100"
+                    HeightRequest="100">
+                </Border>
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
