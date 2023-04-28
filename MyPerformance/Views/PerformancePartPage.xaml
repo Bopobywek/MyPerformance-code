@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyPerformance.Views.PerformancePartPage"
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             xmlns:custom="clr-namespace:MyPerformance.Controls"
              Title="PerformancePartPage">
-    <ScrollView>
-
-        <VerticalStackLayout Padding="20" Spacing="20">
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+    <ScrollView Grid.Row="0">
+        <VerticalStackLayout Padding="10" Spacing="30">
             <VerticalStackLayout >
                 <Entry Placeholder="Название"
                        x:Name="NameInput"
@@ -19,45 +24,49 @@
                         Color="Black" />
             </VerticalStackLayout>
             <VerticalStackLayout>
-                <Editor Placeholder="Заметка"
-                        FontAutoScalingEnabled="True"
-                    AutoSize="TextChanges"
-                    FontFamily="NunitoBold"
-                    MaxLength="256"
-                    WidthRequest="{Binding Source={x:Reference NameInput}, Path=Width}"/>
+                <Label Text="Заметка" 
+                FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                <Editor
+                x:Name="NoteEditor"
+                Placeholder="Введите текст заметки..."
+                AutoSize="TextChanges"
+                FontFamily="NunitoBold"
+                MaxLength="256"
+                WidthRequest="{Binding Source={x:Reference NameInput}, Path=Width}"
+                MinimumWidthRequest="100" />
             </VerticalStackLayout>
-            <Border HeightRequest="120" StrokeThickness="2">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15" />
-                </Border.StrokeShape>
-                <HorizontalStackLayout Padding="10" Spacing="10" VerticalOptions="Center">
-                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
-                    <Label FontSize="60" Text=":" />
-                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
-                    <Label FontSize="60" Text=":" />
-                    <Entry FontSize="60" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
-                </HorizontalStackLayout>
-            </Border>
-            <StackLayout Orientation="Horizontal">
-                <Border
-                HeightRequest="100"
-                   WidthRequest="100"
-                VerticalOptions="Start">
-                    <controls:ColorPicker 
-                    x:Name="ColorPicker"
-                ColorFlowDirection="Horizontal"
-                    ColorSpectrumStyle="TintToHueToShadeStyle"
-                    PointerRingBorderUnits="0.3"
-                    PointerRingDiameterUnits="0.7"
-                    PickedColorChanged="ColorPicker_PickedColorChanged">
-                    </controls:ColorPicker>
-                </Border>
-                <Border x:Name="ColorResult"
-                    WidthRequest="100"
-                    HeightRequest="100">
-                </Border>
-            </StackLayout>
+            <VerticalStackLayout>
+                <Label Text="Длительность" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time}"/>
+                    <!--<HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
 
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label Margin="0,7,0,0" FontSize="30" Text=":" />
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label Margin="0,7,0,0" FontSize="30" Text=":" />
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                </HorizontalStackLayout>-->
+            </VerticalStackLayout>
+            
+
+            <VerticalStackLayout Spacing="20">
+                <Label Text="Цвет секции" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                <HorizontalStackLayout Spacing="10">
+                    <Border StrokeThickness="3" x:Name="ColorBlock"
+                        WidthRequest="{Binding Source={x:Reference ColorButton}, Path=Width}"
+                        HeightRequest="{Binding Source={x:Reference ColorButton}, Path=Height}"
+                        BackgroundColor="{Binding Color}" />
+                    <Button x:Name="ColorButton" Text="Выбрать цвет" Command="{ Binding SelectColor }" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
+        <Button Grid.Row="1" Text="Сохранить"></Button>
+    </Grid>
+
 </ContentPage>

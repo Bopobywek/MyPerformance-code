@@ -1,14 +1,18 @@
+using CommunityToolkit.Maui.Views;
+using Microsoft.Maui;
+using MyPerformance.Services.Interfaces;
+using MyPerformance.ViewModels;
+
 namespace MyPerformance.Views;
 
 public partial class PerformancePartPage : ContentPage
 {
-	public PerformancePartPage()
-	{
-		InitializeComponent();
-	}
+    public PerformancePartPage(PerformancePartViewModel viewModel)
+    {
+        InitializeComponent();
+        NoteEditor.WidthRequest = NameInput.Width;
+        NoteEditor.MinimumWidthRequest = NameInput.Width;
 
-	private void ColorPicker_PickedColorChanged(object sender, Color e)
-	{
-		ColorResult.BackgroundColor = e;
-	}
+        BindingContext = viewModel;
+    }
 }

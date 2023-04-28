@@ -21,8 +21,8 @@ namespace MyPerformance.ViewModels
         {
             AddCommand = new Command(async () =>
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new PerformancePartPage());
-                // await Shell.Current.GoToAsync(nameof(PerformancePage));
+                //await Application.Current.MainPage.Navigation.PushAsync(new PerformancePartPage());
+                await Shell.Current.GoToAsync(nameof(PerformancePartPage));
             });
         }
     }

@@ -20,8 +20,8 @@ namespace MyPerformance.ViewModels
         public MainViewModel() {
             AddCommand = new Command(async () =>
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new PerformancePage());
-                // await Shell.Current.GoToAsync(nameof(PerformancePage));
+                //await Application.Current.MainPage.Navigation.PushAsync(new PerformancePage());
+                await Shell.Current.GoToAsync(nameof(PerformancePage));
             });
         }
     }
