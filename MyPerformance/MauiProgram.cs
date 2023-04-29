@@ -29,6 +29,8 @@ public static class MauiProgram
         builder.Services
             .AddServices()
             .AddTransient<PerformancePartViewModel>()
+            .AddTransient<PerformanceViewModel>()
+            .AddTransient<MainViewModel>()
             .AddTransient<PerformancePartPage>();
 
         Routing.RegisterRoute(nameof(PerformancePage), typeof(PerformancePage));

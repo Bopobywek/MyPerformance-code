@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyPerformance.Views.PerformancePartPage"
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:custom="clr-namespace:MyPerformance.Controls"
-             Title="PerformancePartPage">
+             Title="">
     <Grid Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="9*" />
@@ -13,12 +14,19 @@
     <ScrollView Grid.Row="0">
         <VerticalStackLayout Padding="10" Spacing="30">
             <VerticalStackLayout >
-                <Entry Placeholder="Название"
+                    <Entry Placeholder="Название"
                        x:Name="NameInput"
+                       MaxLength="128"
                        FontFamily="NunitoBold"
                        FontSize="24"
-                       IsTextPredictionEnabled="True" />
-                <BoxView CornerRadius="5" HeightRequest="3"
+                       IsTextPredictionEnabled="True">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                Flags="ValidateOnAttaching,ValidateOnAttaching"
+                                MinimumLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <BoxView CornerRadius="5" HeightRequest="3"
                         VerticalOptions="Center"
                         Opacity="0.8"
                         Color="Black" />
@@ -53,7 +61,7 @@
             
 
             <VerticalStackLayout Spacing="20">
-                <Label Text="Цвет секции" 
+                <Label Text="Цвет части" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
                 <HorizontalStackLayout Spacing="10">

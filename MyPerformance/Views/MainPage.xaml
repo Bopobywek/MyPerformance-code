@@ -22,11 +22,7 @@
                 <x:Array Type="{x:Type local:PerformanceModel}">
                     <local:PerformanceModel Name="Защита курсовой"/>
                     <local:PerformanceModel Name="Маленький питч"/>
-                    <local:PerformanceModel Name="1Защита курсовой"/>
-                    <local:PerformanceModel Name="1Маленький питч"/>
-                    <local:PerformanceModel Name="2Защита курсовой"/>
-                    <local:PerformanceModel Name="2Маленький питч"/>
-                    <local:PerformanceModel Name="2Маленький питч2Маленький питч2Маленький питч2Маленький питч2Маленький питч2Маленький питч"/>
+                    <local:PerformanceModel Name="Большое название 123 123 123 123"/>
                 </x:Array>
             </CollectionView.ItemsSource>
             <CollectionView.Header>
@@ -55,10 +51,10 @@
                                    Grid.Row="0"
                                    Text="{Binding Name}"
                                    LineBreakMode="TailTruncation"
-                                   WidthRequest="220"
+                                   WidthRequest="180"
                                    FontFamily="NunitoBold"
                                    FontAutoScalingEnabled="True"
-                                   FontSize="24"
+                                   FontSize="20"
                                    FontAttributes="Bold" />
                             <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
                                 <Image 
@@ -80,6 +76,25 @@
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>
+                            <HorizontalStackLayout HorizontalOptions="End"
+                                                   Grid.Column="2"
+                                                   Grid.Row="0"
+                                                   Grid.ColumnSpan="2"
+                                                   Spacing="10">
+                                <Image
+                                   Source="delete.png"
+                                   HeightRequest="25"
+                                    />
+                                <Image
+                                   Source="edit.png"
+                                   HeightRequest="25" />
+                            </HorizontalStackLayout>
+                            <Image VerticalOptions="End"
+                                   HorizontalOptions="End"
+                                   Grid.Column="3" Grid.Row="1" Grid.RowSpan="2"
+                                   Source="run.png"
+                                   HeightRequest="25" />
+
                         </Grid>
                     </Border>
                 </DataTemplate>

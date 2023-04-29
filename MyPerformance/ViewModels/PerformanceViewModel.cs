@@ -1,4 +1,5 @@
 ﻿using MyPerformance.Models;
+using MyPerformance.Services.Interfaces;
 using MyPerformance.Views;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace MyPerformance.ViewModels
         {
             AddCommand = new Command(async () =>
             {
-                //await Application.Current.MainPage.Navigation.PushAsync(new PerformancePartPage());
+                // await Application.Current.MainPage.Navigation.PushAsync(new PerformancePartPage());
                 await Shell.Current.GoToAsync(nameof(PerformancePartPage));
             });
         }

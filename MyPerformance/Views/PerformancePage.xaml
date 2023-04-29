@@ -3,16 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyPerformance.Models"
              x:Class="MyPerformance.Views.PerformancePage"
-             Title="PerformancePage">
-    <Grid Padding="20,5,20,5" RowSpacing="10" BackgroundColor="#FEFCFB">
+             Title="">
+    <Grid Padding="10,5,10,5" RowSpacing="10" BackgroundColor="#FEFCFB">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
-            <RowDefinition Height="65*" />
-            <RowDefinition Height="15*" />
+            <RowDefinition Height="68*" />
+            <RowDefinition Height="12*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Padding="10,0,10,0" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -31,25 +31,106 @@
             </VerticalStackLayout>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Padding="10,0,10,0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Margin="0,0,10,0" CornerRadius="15" Grid.Column="0" Text="План" />
-            <Button Margin="10,0,0,0" CornerRadius="15" Grid.Column="1" IsEnabled="False" Text="Таймер" />
+            <Button x:Name="PlanButton"
+                    Margin="0,0,10,0"
+                    CornerRadius="15"
+                    Grid.Column="0"
+                    BackgroundColor="#1282A2"
+                    FontFamily="NunitoBold"
+                    Text="План"
+                    Clicked="PlanButton_Clicked"/>
+            <Button x:Name="TimerButton"
+                    Margin="10,0,0,0"
+                    CornerRadius="15"
+                    Grid.Column="1"
+                    BackgroundColor="Gray"
+                    FontFamily="NunitoBold"
+                    Text="Таймер"
+                    Clicked="TimerButton_Clicked" />
 
         </Grid>
-        <CollectionView Grid.Row="2">
+        <StackLayout x:Name="TimerSettings" Grid.Row="2" IsVisible="False" Orientation="Vertical">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <CheckBox VerticalOptions="Center"
+                              WidthRequest="50"
+                              HeightRequest="50"
+                              Scale="1.5"
+                              Color="#1282A2"
+                          Grid.Column="0" />
+                <Label VerticalOptions="CenterAndExpand"
+                           FontFamily="NunitoBold"
+                           FontSize="16"
+                           LineBreakMode="WordWrap"
+                           Text="Включить вибрацию при переходе между частями" Grid.Column="1" Grid.Row="0" />
+            </Grid>
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <CheckBox VerticalOptions="Center"
+                              WidthRequest="50"
+                              HeightRequest="50"
+                              Scale="1.5"
+                              Color="#1282A2"
+                          Grid.Column="0" />
+                <Label VerticalOptions="CenterAndExpand"
+                           FontFamily="NunitoBold"
+                           FontSize="16"
+                           LineBreakMode="WordWrap"
+                           Text="Включить звуковые сигналы при переходе между частями" Grid.Column="1" Grid.Row="0" />
+            </Grid>
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <CheckBox VerticalOptions="Center"
+                              WidthRequest="50"
+                              HeightRequest="50"
+                              Scale="1.5"
+                              Color="#1282A2"
+                          Grid.Column="0" />
+                <Label VerticalOptions="CenterAndExpand"
+                           FontFamily="NunitoBold"
+                           FontSize="16"
+                           LineBreakMode="WordWrap"
+                           Text="Включить отображение заметок" Grid.Column="1" Grid.Row="0" />
+            </Grid>
+        </StackLayout>
+        <CollectionView x:Name="PlanSettings" Grid.Row="2" IsVisible="True">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemsSource>
                 <x:Array Type="{x:Type local:PerformancePartModel}">
-                    <local:PerformancePartModel Name="Hell1o" Description="World" />
-                    <local:PerformancePartModel Name="Hell2o" Description="Worlddfskjflsdjflkdfdsfsdklfjklsdjflkjsdfkjsdlkfjsjfljdsfldsflskdjfdslfjdlsfjsdlfkjsdlfjsdljflsdkfjsdlf" />
-                    <local:PerformancePartModel Name="Hell3o" Description="World" />
-                    <local:PerformancePartModel Name="Hell4o" Description="World" />
+                    <local:PerformancePartModel Name="Вступление" Description="" />
+                    <local:PerformancePartModel Name="..." Description="Сказать что-нибудь умное" />
+                    <local:PerformancePartModel Name="Итоги" Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis non turpis sit amet dignissim. Phasellus porttitor vitae mauris quis placerat. Nunc in accumsan enim. Morbi tempus scelerisque suscipit. Fusce in pharetra purus. Sed ac metus eu urna scelerisque efficitur id vitae lorem. Pellentesque elit mauris, imperdiet ut quam commodo, rutrum sollicitudin justo. Curabitur tincidunt turpis at ex interdum tincidunt. Nam felis sapien, volutpat et suscipit a, bibendum a enim. Vestibulum ac elit nunc. " />
                 </x:Array>
             </CollectionView.ItemsSource>
             <CollectionView.ItemTemplate>
@@ -62,10 +143,10 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="10" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -91,7 +172,7 @@
                                    FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
+                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3">
                                 <Image 
                                    Source="clock.png"
                                    HeightRequest="20" />
@@ -100,6 +181,19 @@
                                    Text="{Binding Duration}"
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout HorizontalOptions="End"
+                                                   Grid.Column="1"
+                                                   Grid.Row="3"
+                                                   Grid.ColumnSpan="2"
+                                                   Spacing="10">
+                                <Image
+                                   Source="delete.png"
+                                   HeightRequest="25"
+                                    />
+                                <Image
+                                   Source="edit.png"
+                                   HeightRequest="25" />
                             </HorizontalStackLayout>
                         </Grid>
                     </Border>
@@ -125,7 +219,11 @@
                 </Button>
             </CollectionView.Footer>
         </CollectionView>
-        <Button Grid.Row="3" Margin="10,0,10,20" BackgroundColor="#1282A2" Text="Сохранить" />
+        <Button Grid.Row="3"
+                Margin="0,0,0,10"
+                BackgroundColor="#1282A2"
+                FontFamily="NunitoBold"
+                Text="Сохранить" />
     </Grid>
 
 </ContentPage>

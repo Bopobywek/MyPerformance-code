@@ -1,4 +1,6 @@
-﻿using MyPerformance.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using MyPerformance.Models;
+using MyPerformance.Services.Interfaces;
 using MyPerformance.Views;
 using System;
 using System.Collections.Generic;
@@ -18,9 +20,9 @@ namespace MyPerformance.ViewModels
         public ObservableCollection<PerformanceModel> Performances { get; } = new();
 
         public MainViewModel() {
-            AddCommand = new Command(async () =>
+            AddCommand = new AsyncRelayCommand(async () =>
             {
-                //await Application.Current.MainPage.Navigation.PushAsync(new PerformancePage());
+                // await Application.Current.MainPage.Navigation.PushAsync(new PerformancePage());
                 await Shell.Current.GoToAsync(nameof(PerformancePage));
             });
         }
