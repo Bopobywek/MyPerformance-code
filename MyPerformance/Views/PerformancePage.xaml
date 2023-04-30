@@ -22,7 +22,7 @@
                 <Entry Placeholder="Название"
                        x:Name="NameInput"
                        FontFamily="NunitoBold"
-                       Text="{Binding Name}"
+                       Text="{Binding Name, Mode=TwoWay}"
                        FontSize="24"
                        IsTextPredictionEnabled="True" />
                 <BoxView CornerRadius="5" HeightRequest="3"

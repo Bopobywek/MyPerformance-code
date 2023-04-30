@@ -46,9 +46,33 @@ namespace MyPerformance.ViewModels
             await Shell.Current.GoToAsync(nameof(PerformancePage));
         }
 
+        [RelayCommand]
+        public async void Edit(int id) 
+        {
+            var parameters = new Dictionary<string, object> {
+                { "edit", true },
+                { "id", id}
+            };
+            await Shell.Current.GoToAsync(nameof(PerformancePage), parameters);
+        }
+
+        [RelayCommand]
+        public async void Delete(int id)
+        {
+            performancesRepository.Delete(id);
+            UpdatePerformances();
+        }
+
+        [RelayCommand]
+        public async void Run(int id)
+        {
+        }
+
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             UpdatePerformances();
         }
+
+
     }
 }

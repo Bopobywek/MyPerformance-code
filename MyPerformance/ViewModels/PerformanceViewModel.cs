@@ -21,6 +21,7 @@ namespace MyPerformance.ViewModels
         private readonly PerformancesRepository repository;
         [ObservableProperty]
         private string name;
+        private int id;
         public ICommand AddCommand { get; set; }
         public ObservableCollection<PerformancePartModel> PerformanceParts { get; } = new();
 
@@ -44,13 +45,15 @@ namespace MyPerformance.ViewModels
             }
             else if (query.ContainsKey("edit"))
             {
-                var id = (int)query["edit"];
+                id = (int)query["id"];
                 var model = repository.Query(id);
-                foreach (var part in model.PerformanceParts) 
+                name = model.Name;
+                foreach (var part in model.PerformanceParts.OrderBy(x => x.Position)) 
                 {
                     PerformanceParts.Add(part);
                 }
                 OnPropertyChanged(nameof(PerformanceParts));
+                OnPropertyChanged("Name");
             }
             query.Clear();
         }
@@ -58,14 +61,20 @@ namespace MyPerformance.ViewModels
         [RelayCommand]
         public async void Save()
         {
+            for (int i = 1; i < PerformanceParts.Count + 1; ++i)
+            {
+                PerformanceParts[i - 1].Position = i;
+            }
+
             var model = new PerformanceModel {
+                Id = id,
                 Name = Name,
                 Date = new DateTime(2023, 5, 1),
                 Duration = new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)),
                 PerformanceParts = PerformanceParts.ToArray()
             };
 
-            repository.Add(model);
+            repository.AddOrUpdate(model);
             await Shell.Current.GoToAsync("..", new Dictionary<string, object>() {
                 { "upd-main", 1 }
             });

@@ -29,13 +29,26 @@ namespace MyPerformance.Repositories
             _connection.CreateTable<PerformancePartModel>();
         }
 
-        public void Add(PerformanceModel performance) {
+        public void AddOrUpdate(PerformanceModel performance) {
             try
             {
                 Init();
 
-                _connection.Insert(performance);
-                _connection.InsertAll(performance.PerformanceParts);
+                if (performance.Id > 0)
+                {
+                    foreach (var item in performance.PerformanceParts)
+                    {
+                        if (item.Id == 0)
+                        {
+                            _connection.Insert(item);
+                        }
+                    }
+                }
+                else
+                {
+                    _connection.Insert(performance);
+                    _connection.InsertAll(performance.PerformanceParts);
+                }
 
                 _connection.UpdateWithChildren(performance);
             }
@@ -61,6 +74,15 @@ namespace MyPerformance.Repositories
         {
             Init();
             return _connection.GetWithChildren<PerformanceModel>(id);
+        }
+
+        public void Delete(int id)
+        {
+            Init();
+            const string sqlQuery = "DELETE FROM performance_parts WHERE PerformanceId = ?";
+            _connection.Execute(sqlQuery, id);
+            const string sqlQuery2 = " DELETE FROM performances WHERE Id = ?";
+            _connection.Execute(sqlQuery2, id);
         }
     }
 }
