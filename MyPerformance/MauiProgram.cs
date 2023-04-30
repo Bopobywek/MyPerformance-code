@@ -6,6 +6,7 @@ using MyPerformance.Services;
 using MyPerformance.Views;
 using MyPerformance.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using MyPerformance.Repositories;
 
 namespace MyPerformance;
 
@@ -30,12 +31,16 @@ public static class MauiProgram
             .AddServices()
             .AddTransient<PerformancePartViewModel>()
             .AddTransient<PerformanceViewModel>()
+            .AddTransient<PerformancePage>()
+            .AddTransient<MainPage>()
             .AddTransient<MainViewModel>()
             .AddTransient<PerformancePartPage>();
 
         Routing.RegisterRoute(nameof(PerformancePage), typeof(PerformancePage));
         Routing.RegisterRoute(nameof(PerformancePartPage), typeof(PerformancePartPage));
 
+        string dbPath = Path.Combine(FileSystem.AppDataDirectory, "performances.db3");
+        builder.Services.AddSingleton<PerformancesRepository>(s => ActivatorUtilities.CreateInstance<PerformancesRepository>(s, dbPath));
 
         return builder.Build();
     }

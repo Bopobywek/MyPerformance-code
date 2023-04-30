@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MyPerformance.Models;
+using MyPerformance.Repositories;
 using MyPerformance.Services.Interfaces;
 using MyPerformance.Views;
 using System;
@@ -13,18 +15,40 @@ using System.Windows.Input;
 
 namespace MyPerformance.ViewModels
 {
-    internal class MainViewModel
+    [ObservableObject]
+    public partial class MainViewModel : IQueryAttributable
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand AddCommand { get; set; }
+        private readonly PerformancesRepository performancesRepository;
+
         public ObservableCollection<PerformanceModel> Performances { get; } = new();
 
-        public MainViewModel() {
-            AddCommand = new AsyncRelayCommand(async () =>
+        public MainViewModel(PerformancesRepository performancesRepository)
+        {
+            this.performancesRepository = performancesRepository;
+            UpdatePerformances();
+        }
+        private void UpdatePerformances()
+        {
+            Performances.Clear();
+            var result = performancesRepository.QueryAll();
+
+            foreach (var item in result)
             {
-                // await Application.Current.MainPage.Navigation.PushAsync(new PerformancePage());
-                await Shell.Current.GoToAsync(nameof(PerformancePage));
-            });
+                Performances.Add(item);
+            }
+
+            OnPropertyChanged(nameof(Performances));
+        }
+
+        [RelayCommand]
+        public async void Add()
+        {
+            await Shell.Current.GoToAsync(nameof(PerformancePage));
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            UpdatePerformances();
         }
     }
 }

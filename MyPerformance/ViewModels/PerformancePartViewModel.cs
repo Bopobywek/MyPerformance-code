@@ -14,7 +14,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MyPerformance.ViewModels
 {
-    public class PerformancePartViewModel : ObservableObject
+    public partial class PerformancePartViewModel : ObservableObject
     {
         private Color _color;
         public Color Color
@@ -26,6 +26,11 @@ namespace MyPerformance.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        [ObservableProperty]
+        private string name;
+        [ObservableProperty]
+        private string description;
 
         private TimeSpan _time;
         public TimeSpan Time
@@ -46,6 +51,24 @@ namespace MyPerformance.ViewModels
                 var popup = new ColorPopup();
                 Color = (Color)await popupService.ShowPopup(popup);
             });
+            SelectColor = new Command(async () =>
+            {
+                var popup = new ColorPopup();
+                Color = (Color)await popupService.ShowPopup(popup);
+            });
         }
+
+        [RelayCommand]
+        public async void Save()
+        {
+            var model = new PerformancePartModel { Name = Name, Description = Description, Duration = Time, Color = Color?.ToHex() ?? "Red" };
+            var parameters = new Dictionary<string, object>
+            {
+                { "add", model }
+            };
+
+            await Shell.Current.GoToAsync("..", true, parameters); 
+        }
+
     }
 }

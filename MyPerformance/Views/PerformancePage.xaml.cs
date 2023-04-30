@@ -6,11 +6,11 @@ namespace MyPerformance.Views;
 
 public partial class PerformancePage : ContentPage
 {
-	public PerformancePage()
+	public PerformancePage(PerformanceViewModel viewModel)
 	{
 		InitializeComponent();
 		
-		BindingContext = new PerformanceViewModel();
+		BindingContext = viewModel;
 	}
 
 	private void TimerButton_Clicked(object sender, EventArgs e)

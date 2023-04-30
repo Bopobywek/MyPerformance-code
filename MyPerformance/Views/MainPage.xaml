@@ -14,17 +14,18 @@
         <CollectionView Grid.Row="0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalOptions="StartAndExpand"
-                        VerticalOptions="Center">
+                        VerticalOptions="Center"
+                        ItemsSource="{Binding Performances}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
-            <CollectionView.ItemsSource>
+            <!--<CollectionView.ItemsSource>
                 <x:Array Type="{x:Type local:PerformanceModel}">
                     <local:PerformanceModel Name="Защита курсовой"/>
                     <local:PerformanceModel Name="Маленький питч"/>
                     <local:PerformanceModel Name="Большое название 123 123 123 123"/>
                 </x:Array>
-            </CollectionView.ItemsSource>
+            </CollectionView.ItemsSource>-->
             <CollectionView.Header>
                 <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
             </CollectionView.Header>

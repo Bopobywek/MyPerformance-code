@@ -22,6 +22,7 @@
                 <Entry Placeholder="Название"
                        x:Name="NameInput"
                        FontFamily="NunitoBold"
+                       Text="{Binding Name}"
                        FontSize="24"
                        IsTextPredictionEnabled="True" />
                 <BoxView CornerRadius="5" HeightRequest="3"
@@ -122,17 +123,10 @@
                            Text="Включить отображение заметок" Grid.Column="1" Grid.Row="0" />
             </Grid>
         </StackLayout>
-        <CollectionView x:Name="PlanSettings" Grid.Row="2" IsVisible="True">
+        <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts}" Grid.Row="2" IsVisible="True">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
-            <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type local:PerformancePartModel}">
-                    <local:PerformancePartModel Name="Вступление" Description="" />
-                    <local:PerformancePartModel Name="..." Description="Сказать что-нибудь умное" />
-                    <local:PerformancePartModel Name="Итоги" Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis non turpis sit amet dignissim. Phasellus porttitor vitae mauris quis placerat. Nunc in accumsan enim. Morbi tempus scelerisque suscipit. Fusce in pharetra purus. Sed ac metus eu urna scelerisque efficitur id vitae lorem. Pellentesque elit mauris, imperdiet ut quam commodo, rutrum sollicitudin justo. Curabitur tincidunt turpis at ex interdum tincidunt. Nam felis sapien, volutpat et suscipit a, bibendum a enim. Vestibulum ac elit nunc. " />
-                </x:Array>
-            </CollectionView.ItemsSource>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:PerformancePartModel">
                     <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
@@ -178,6 +172,7 @@
                                    HeightRequest="20" />
                                 <Label
                                    Margin="5,0,0,0"
+                                    VerticalOptions="Center"
                                    Text="{Binding Duration}"
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
@@ -223,7 +218,8 @@
                 Margin="0,0,0,10"
                 BackgroundColor="#1282A2"
                 FontFamily="NunitoBold"
-                Text="Сохранить" />
+                Text="Сохранить"
+                Command="{Binding SaveCommand}"/>
     </Grid>
 
 </ContentPage>

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace MyPerformance.Models
 {
-    internal class PerformanceModel
+    [Table("performances")]
+    public class PerformanceModel
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan Duration { get; set; } = new TimeSpan(0, 2, 3);
-        public DateTime Date { get; set; } = new DateTime(2023, 3, 5);
+        public TimeSpan Duration { get; set; }
+        public DateTime Date { get; set; }
+
+        [OneToMany("PerformanceId")]
         public PerformancePartModel[] PerformanceParts { get; set; }
     }
 }
