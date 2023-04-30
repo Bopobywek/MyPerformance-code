@@ -50,7 +50,7 @@
                 <Label Text="Длительность (чч:мм:сс)" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
-                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time}"/>
+                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time, Mode=TwoWay}"/>
                     <!--<HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
 
                     <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />

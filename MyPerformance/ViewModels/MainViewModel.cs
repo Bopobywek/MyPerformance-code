@@ -57,10 +57,10 @@ namespace MyPerformance.ViewModels
         }
 
         [RelayCommand]
-        public async void Delete(int id)
+        public async void Delete(PerformanceModel model)
         {
-            performancesRepository.Delete(id);
-            UpdatePerformances();
+            performancesRepository.Delete(model.Id);
+            Performances.Remove(model);
         }
 
         [RelayCommand]

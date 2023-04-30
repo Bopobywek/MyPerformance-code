@@ -8,12 +8,22 @@ namespace MyPerformance.Controls
 {
     public class TimeSpanPicker : HorizontalStackLayout
     {
-        public static readonly BindableProperty TimeProperty = BindableProperty.Create(nameof(Time), typeof(TimeSpan), typeof(TimeSpanPicker), defaultBindingMode: BindingMode.TwoWay);
-        public TimeSpan? Time 
+        public static readonly BindableProperty TimeProperty = BindableProperty.Create(
+            nameof(Time),
+            typeof(TimeSpan),
+            typeof(TimeSpanPicker),
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: OnTimeChanged);
+
+        public TimeSpan? Time
         {
             get => (TimeSpan?)GetValue(TimeProperty);
-            set => SetValue(TimeProperty, value);
+            set
+            {
+                SetValue(TimeProperty, value);
+            }
         }
+        bool isIntrfaceSignal;
         private Entry _hours;
         private int _hoursValue = 0;
         private int _minutesValue = 0;
@@ -86,74 +96,102 @@ namespace MyPerformance.Controls
 
         private void Seconds_TextChanged(object sender, TextChangedEventArgs e)
         {
+            isIntrfaceSignal = true;
+
             if (e.NewTextValue == "")
             {
                 _secondsValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
-                return;
             }
-            if (!uint.TryParse(e.NewTextValue, out var seconds) || seconds == 0 || seconds > 59)
+            else if (!uint.TryParse(e.NewTextValue, out var seconds) || seconds == 0 || seconds > 59)
             {
                 _seconds.Text = "";
                 _secondsValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
-                return;
+            }
+            else
+            {
+                var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
+
+                _seconds.Text = value;
+                _secondsValue = (int)seconds;
+                _seconds.CursorPosition = 3;
             }
 
-            var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
-
-            _seconds.Text = value;
-            _secondsValue = (int)seconds;
-            _seconds.CursorPosition = 3;
             Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
+            isIntrfaceSignal = false;
+
         }
 
         private void Minutes_TextChanged(object sender, TextChangedEventArgs e)
         {
+            isIntrfaceSignal = true;
+
             if (e.NewTextValue == "")
             {
                 _minutesValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
-                return;
             }
-            if (!uint.TryParse(e.NewTextValue, out var minutes) || minutes == 0 || minutes > 59)
+            else if (!uint.TryParse(e.NewTextValue, out var minutes) || minutes == 0 || minutes > 59)
             {
                 _minutes.Text = "";
                 _minutesValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
-                return;
+            }
+            else
+            {
+                var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
+
+                _minutes.Text = value;
+                _minutesValue = (int)minutes;
+                _minutes.CursorPosition = 3;
             }
 
-            var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
-
-            _minutes.Text = value;
-            _minutesValue = (int)minutes;
-            _minutes.CursorPosition = 3;
             Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
+            isIntrfaceSignal = false;
         }
 
         private void Hours_TextChanged(object sender, TextChangedEventArgs e)
         {
+            isIntrfaceSignal = true;
+
             if (e.NewTextValue == "")
             {
                 _hoursValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
-                return;
             }
-            if (!uint.TryParse(e.NewTextValue, out var hours) || hours == 0)
+            else if (!uint.TryParse(e.NewTextValue, out var hours) || hours == 0 || hours > 23)
             {
                 _hours.Text = "";
                 _hoursValue = 0;
-                Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
+            }
+            else
+            {
+                var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
+
+                _hours.Text = value;
+                _hoursValue = (int)hours;
+                _hours.CursorPosition = 3;
+            }
+
+            Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
+            isIntrfaceSignal = false;
+        }
+
+        public static void OnTimeChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var timePicker = (TimeSpanPicker)bindable;
+
+            if (timePicker.isIntrfaceSignal)
+            {
                 return;
             }
 
-            var value = e.NewTextValue.PadLeft(3, '0').Substring(1, 2);
+            timePicker.Time = (TimeSpan)newValue;
+            var value = (TimeSpan)newValue;
 
-            _hours.Text = value;
-            _hoursValue = (int)hours;
-            _hours.CursorPosition = 3;
-            Time = new TimeSpan(_hoursValue, _minutesValue, _secondsValue);
+            timePicker._hoursValue = value.Hours;
+            timePicker._minutesValue = value.Minutes;
+            timePicker._secondsValue = value.Seconds;
+
+            timePicker._hours.Text = timePicker._hoursValue.ToString().PadLeft(2, '0');
+            timePicker._minutes.Text = timePicker._minutesValue.ToString().PadLeft(2, '0');
+            timePicker._seconds.Text = timePicker._secondsValue.ToString().PadLeft(2, '0');
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿using SQLite;
 using MyPerformance.Models;
 using SQLiteNetExtensions.Extensions;
 
@@ -29,30 +24,29 @@ namespace MyPerformance.Repositories
             _connection.CreateTable<PerformancePartModel>();
         }
 
-        public void AddOrUpdate(PerformanceModel performance) {
+        public void AddOrUpdate(PerformanceModel performance)
+        {
             try
             {
                 Init();
 
-                if (performance.Id > 0)
+                var insertions = performance.PerformanceParts.Where(x => x.Id == 0).ToArray();
+                if (insertions.Length > 0)
                 {
-                    foreach (var item in performance.PerformanceParts)
-                    {
-                        if (item.Id == 0)
-                        {
-                            _connection.Insert(item);
-                        }
-                    }
+                    _connection.InsertAll(insertions, typeof(PerformancePartModel));
                 }
-                else
+
+                _connection.UpdateAll(performance.PerformanceParts);
+
+                if (performance.Id == 0)
                 {
                     _connection.Insert(performance);
-                    _connection.InsertAll(performance.PerformanceParts);
                 }
 
                 _connection.UpdateWithChildren(performance);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw;
             }
         }
@@ -74,6 +68,22 @@ namespace MyPerformance.Repositories
         {
             Init();
             return _connection.GetWithChildren<PerformanceModel>(id);
+        }
+
+
+        public PerformancePartModel QueryPart(int id)
+        {
+            Init();
+            return _connection.Table<PerformancePartModel>()
+                .Where(x => x.Id == id)
+                .Single();
+        }
+
+
+        public void DeletePart(PerformancePartModel model)
+        {
+            Init();
+            _connection.Delete(model);
         }
 
         public void Delete(int id)

@@ -40,7 +40,21 @@ namespace MyPerformance.ViewModels
             if (query.ContainsKey("add"))
             {
                 var model = (PerformancePartModel)query["add"];
-                PerformanceParts.Add(model);
+                if (model.Id != 0)
+                {
+                    for (int i = 0; i < PerformanceParts.Count; ++i)
+                    {
+                        if (model.Id == PerformanceParts[i].Id)
+                        {
+                            PerformanceParts[i] = model;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    PerformanceParts.Add(model);
+                }
                 OnPropertyChanged(nameof(PerformanceParts));
             }
             else if (query.ContainsKey("edit"))
@@ -78,6 +92,24 @@ namespace MyPerformance.ViewModels
             await Shell.Current.GoToAsync("..", new Dictionary<string, object>() {
                 { "upd-main", 1 }
             });
+        }
+
+        [RelayCommand]
+        public async void Edit(PerformancePartModel model)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "edit-part", model}
+            };
+            await Shell.Current.GoToAsync(nameof(PerformancePartPage), parameters);
+        }
+
+        [RelayCommand]
+        public void Delete(PerformancePartModel model)
+        {
+            PerformanceParts.Remove(model);
+            repository.DeletePart(model);
+            OnPropertyChanged(nameof(PerformanceParts));
         }
     }
 }

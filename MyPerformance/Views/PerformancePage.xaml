@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyPerformance.Models"
+             xmlns:vm="clr-namespace:MyPerformance.ViewModels"
+             xmlns:converters="clr-namespace:MyPerformance.Converters"
              x:Class="MyPerformance.Views.PerformancePage"
              Title="">
+    <ContentPage.Resources>
+        <converters:StringToColorConverter x:Key="stringToColor" />
+    </ContentPage.Resources>
     <Grid Padding="10,5,10,5" RowSpacing="10" BackgroundColor="#FEFCFB">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
@@ -123,13 +128,13 @@
                            Text="Включить отображение заметок" Grid.Column="1" Grid.Row="0" />
             </Grid>
         </StackLayout>
-        <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts}" Grid.Row="2" IsVisible="True">
+        <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts, Mode=TwoWay}" Grid.Row="2" IsVisible="True">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:PerformancePartModel">
-                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
+                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding Color, Converter={StaticResource stringToColor} }">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="15" />
                         </Border.StrokeShape>
@@ -184,11 +189,22 @@
                                                    Spacing="10">
                                 <Image
                                    Source="delete.png"
-                                   HeightRequest="25"
-                                    />
+                                   HeightRequest="25">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=DeleteCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                                 <Image
                                    Source="edit.png"
-                                   HeightRequest="25" />
+                                   HeightRequest="25">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=EditCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </HorizontalStackLayout>
                         </Grid>
                     </Border>

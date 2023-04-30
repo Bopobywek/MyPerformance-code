@@ -15,7 +15,7 @@
         <CollectionView Grid.Row="0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalOptions="StartAndExpand"
-                        VerticalOptions="Center"
+                        VerticalOptions="Start"
                         ItemsSource="{Binding Performances}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
@@ -89,7 +89,7 @@
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
-                                                        CommandParameter="{Binding Id}" />
+                                                        CommandParameter="{Binding .}" />
                                     </Image.GestureRecognizers>
                                 </Image>
                                 <Image

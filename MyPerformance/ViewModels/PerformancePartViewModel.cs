@@ -14,7 +14,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MyPerformance.ViewModels
 {
-    public partial class PerformancePartViewModel : ObservableObject
+    [ObservableObject]
+    public partial class PerformancePartViewModel : IQueryAttributable
     {
         private Color _color;
         public Color Color
@@ -27,6 +28,8 @@ namespace MyPerformance.ViewModels
             }
         }
 
+        private int id;
+        private int performanceId;
         [ObservableProperty]
         private string name;
         [ObservableProperty]
@@ -36,7 +39,7 @@ namespace MyPerformance.ViewModels
         public TimeSpan Time
         {
             get => _time;
-            set 
+            set
             {
                 _time = value;
                 OnPropertyChanged();
@@ -51,24 +54,42 @@ namespace MyPerformance.ViewModels
                 var popup = new ColorPopup();
                 Color = (Color)await popupService.ShowPopup(popup);
             });
-            SelectColor = new Command(async () =>
-            {
-                var popup = new ColorPopup();
-                Color = (Color)await popupService.ShowPopup(popup);
-            });
         }
 
         [RelayCommand]
         public async void Save()
         {
-            var model = new PerformancePartModel { Name = Name, Description = Description, Duration = Time, Color = Color?.ToHex() ?? "Red" };
+            var model = new PerformancePartModel
+            {
+                Id = id,
+                PerformanceId = performanceId,
+                Name = Name,
+                Description = Description,
+                Duration = Time,
+                Color = Color?.ToHex() ?? "#FEFFFF"
+            };
             var parameters = new Dictionary<string, object>
             {
                 { "add", model }
             };
 
-            await Shell.Current.GoToAsync("..", true, parameters); 
+            await Shell.Current.GoToAsync("..", true, parameters);
         }
 
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("edit-part"))
+            {
+                var model = (PerformancePartModel)query["edit-part"];
+                id = model.Id;
+                Name = model.Name;
+                Description = model.Description;
+                Time = model.Duration;
+                Color = Color.Parse(model.Color);
+                performanceId = model.PerformanceId;
+            }
+
+            query.Clear();
+        }
     }
 }
