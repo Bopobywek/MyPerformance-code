@@ -38,6 +38,7 @@ public static class MauiProgram
 
         Routing.RegisterRoute(nameof(PerformancePage), typeof(PerformancePage));
         Routing.RegisterRoute(nameof(PerformancePartPage), typeof(PerformancePartPage));
+        Routing.RegisterRoute(nameof(TimerPage), typeof(TimerPage));
 
         string dbPath = Path.Combine(FileSystem.AppDataDirectory, "performances.db3");
         builder.Services.AddSingleton<PerformancesRepository>(s => ActivatorUtilities.CreateInstance<PerformancesRepository>(s, dbPath));

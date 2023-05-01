@@ -87,9 +87,8 @@ namespace MyPerformance.ViewModels
                 Time = model.Duration;
                 Color = Color.Parse(model.Color);
                 performanceId = model.PerformanceId;
+                query.Clear();
             }
-
-            query.Clear();
         }
     }
 }

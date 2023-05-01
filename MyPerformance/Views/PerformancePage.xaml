@@ -128,7 +128,7 @@
                            Text="Включить отображение заметок" Grid.Column="1" Grid.Row="0" />
             </Grid>
         </StackLayout>
-        <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts, Mode=TwoWay}" Grid.Row="2" IsVisible="True">
+        <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts}" Grid.Row="2" IsVisible="True">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
             </CollectionView.ItemsLayout>

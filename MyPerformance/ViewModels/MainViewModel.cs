@@ -2,16 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using MyPerformance.Models;
 using MyPerformance.Repositories;
-using MyPerformance.Services.Interfaces;
 using MyPerformance.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MyPerformance.ViewModels
 {
@@ -57,20 +49,29 @@ namespace MyPerformance.ViewModels
         }
 
         [RelayCommand]
-        public async void Delete(PerformanceModel model)
+        public void Delete(PerformanceModel model)
         {
             performancesRepository.Delete(model.Id);
             Performances.Remove(model);
         }
 
         [RelayCommand]
-        public async void Run(int id)
+        public async void Run(PerformanceModel model)
         {
+            var parameters = new Dictionary<string, object> {
+                { "timer", performancesRepository.Query(model.Id) }
+            };
+
+            await Shell.Current.GoToAsync(nameof(TimerPage), parameters);
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            UpdatePerformances();
+            if (query.ContainsKey("upd-main"))
+            {
+                UpdatePerformances();
+                query.Clear();
+            }
         }
 
 

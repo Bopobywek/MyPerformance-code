@@ -110,7 +110,7 @@
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=RunCommand}"
-                                                        CommandParameter="{Binding Id}" />
+                                                        CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
 

@@ -56,6 +56,7 @@ namespace MyPerformance.ViewModels
                     PerformanceParts.Add(model);
                 }
                 OnPropertyChanged(nameof(PerformanceParts));
+                query.Clear();
             }
             else if (query.ContainsKey("edit"))
             {
@@ -68,6 +69,7 @@ namespace MyPerformance.ViewModels
                 }
                 OnPropertyChanged(nameof(PerformanceParts));
                 OnPropertyChanged("Name");
+                query.Clear();
             }
             query.Clear();
         }

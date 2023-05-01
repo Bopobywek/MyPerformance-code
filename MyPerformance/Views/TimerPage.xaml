@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyPerformance.Views.TimerPage"
+             Title="TimerPage">
+    <Grid Padding="20,15,20,20" RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="TotalTimeRow" Height="12*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="45*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        
+        <Label Text="{Binding Time}"
+               Grid.Row="0"
+               FontAutoScalingEnabled="True"
+               FontFamily="NunitoBold"
+               FontSize="48"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+            <Label Text="{Binding PartTime}"
+               Grid.Row="1"
+               FontAutoScalingEnabled="True"
+               FontFamily="NunitoBold"
+               FontSize="40"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+        <Border Grid.Row="2" MinimumHeightRequest="50" MinimumWidthRequest="50" StrokeThickness="0" BackgroundColor="{Binding Color}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   FontSize="18"
+                   Padding="10"
+                   LineBreakMode="WordWrap"
+                   FontFamily="NunitoBold"
+                   Text="{Binding PartName}" />
+        </Border>
+
+        <Border Grid.Row="3" MinimumHeightRequest="100" MinimumWidthRequest="50" StrokeThickness="0" BackgroundColor="#a6e1fa">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="16"
+                   Padding="15"
+                   LineBreakMode="CharacterWrap"
+                   FontFamily="NunitoBold"
+                   Text="{Binding PartNote}" />
+        </Border>
+
+        <Border Padding="10" Grid.Row="4" StrokeThickness="0" BackgroundColor="#1282A2">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Grid x:Name="ButtonGrid" Padding="20"
+                  ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="ButtonWidth" Height="*" />
+                </Grid.RowDefinitions>
+                <Button HeightRequest="70"
+                        WidthRequest="70"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Grid.Column="0" />
+
+                <Button HeightRequest="70"
+                        WidthRequest="70"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Command="{Binding RunCommand}"
+                        Grid.Column="1"
+                        Grid.Row="0" />
+
+                <Button HeightRequest="70"
+                        WidthRequest="70"
+                        CornerRadius="15"
+                        BackgroundColor="#A6E1FA"
+                        Grid.Column="2"
+                        Grid.Row="0" />
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>
