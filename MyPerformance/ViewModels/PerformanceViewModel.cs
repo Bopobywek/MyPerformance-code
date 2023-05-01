@@ -19,13 +19,14 @@ namespace MyPerformance.ViewModels
     public partial class PerformanceViewModel : IQueryAttributable
     {
         private readonly PerformancesRepository repository;
+        private readonly IAlertService alertService;
         [ObservableProperty]
         private string name;
         private int id;
         public ICommand AddCommand { get; set; }
         public ObservableCollection<PerformancePartModel> PerformanceParts { get; } = new();
 
-        public PerformanceViewModel(PerformancesRepository repository)
+        public PerformanceViewModel(PerformancesRepository repository, IAlertService alertService)
         {
             AddCommand = new Command(async () =>
             {
@@ -33,6 +34,7 @@ namespace MyPerformance.ViewModels
                 await Shell.Current.GoToAsync(nameof(PerformancePartPage));
             });
             this.repository = repository;
+            this.alertService = alertService;
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -107,8 +109,14 @@ namespace MyPerformance.ViewModels
         }
 
         [RelayCommand]
-        public void Delete(PerformancePartModel model)
+        public async Task Delete(PerformancePartModel model)
         {
+            var result = await alertService.ShowConfirmationAsync("Удаление части выступления",
+                "Вы действительно хотите удалить данную часть выступления?", "Да", "Нет");
+            if (!result)
+            {
+                return;
+            }
             PerformanceParts.Remove(model);
             repository.DeletePart(model);
             OnPropertyChanged(nameof(PerformanceParts));

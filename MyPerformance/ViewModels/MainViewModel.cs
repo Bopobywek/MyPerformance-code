@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MyPerformance.Models;
 using MyPerformance.Repositories;
+using MyPerformance.Services.Interfaces;
 using MyPerformance.Views;
 using System.Collections.ObjectModel;
 
@@ -11,12 +12,14 @@ namespace MyPerformance.ViewModels
     public partial class MainViewModel : IQueryAttributable
     {
         private readonly PerformancesRepository performancesRepository;
+        private readonly IAlertService alertService;
 
         public ObservableCollection<PerformanceModel> Performances { get; } = new();
 
-        public MainViewModel(PerformancesRepository performancesRepository)
+        public MainViewModel(PerformancesRepository performancesRepository, IAlertService alertService)
         {
             this.performancesRepository = performancesRepository;
+            this.alertService = alertService;
             UpdatePerformances();
         }
         private void UpdatePerformances()
@@ -49,8 +52,14 @@ namespace MyPerformance.ViewModels
         }
 
         [RelayCommand]
-        public void Delete(PerformanceModel model)
+        public async Task Delete(PerformanceModel model)
         {
+            var result = await alertService.ShowConfirmationAsync("Удаление выступления",
+                "Вы действительно хотите удалить данное выступление?", "Да", "Нет");
+            if (!result)
+            {
+                return;
+            }
             performancesRepository.Delete(model.Id);
             Performances.Remove(model);
         }

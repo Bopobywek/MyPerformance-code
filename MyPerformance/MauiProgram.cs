@@ -8,6 +8,7 @@ using MyPerformance.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using MyPerformance.Repositories;
 using Plugin.LocalNotification;
+using MyPerformance.Services.Interfaces;
 
 namespace MyPerformance;
 
@@ -20,7 +21,9 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseSkiaSharp()
             .UseMauiCommunityToolkit()
+#if ANDROID
             .UseLocalNotification()
+#endif
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -36,7 +39,8 @@ public static class MauiProgram
             .AddTransient<PerformancePage>()
             .AddTransient<MainPage>()
             .AddTransient<MainViewModel>()
-            .AddTransient<PerformancePartPage>();
+            .AddTransient<PerformancePartPage>()
+            .AddSingleton<IAlertService, AlertService>(); ;
 
         Routing.RegisterRoute(nameof(PerformancePage), typeof(PerformancePage));
         Routing.RegisterRoute(nameof(PerformancePartPage), typeof(PerformancePartPage));
