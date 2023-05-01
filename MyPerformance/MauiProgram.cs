@@ -7,6 +7,7 @@ using MyPerformance.Views;
 using MyPerformance.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using MyPerformance.Repositories;
+using Plugin.LocalNotification;
 
 namespace MyPerformance;
 
@@ -19,6 +20,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseSkiaSharp()
             .UseMauiCommunityToolkit()
+            .UseLocalNotification()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

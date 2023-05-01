@@ -41,6 +41,25 @@ namespace MyPerformance.Platforms.Android
             return StartCommandResult.NotSticky;
         }
 
+        public void Notify()
+        {
+            var notifcationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                createNotificationChannel(notifcationManager);
+            }
+
+            var notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+            notification.SetAutoCancel(false);
+            notification.SetOngoing(true);
+            notification.SetSmallIcon(Resource.Mipmap.appicon);
+            notification.SetContentTitle("ForegroundService");
+            notification.SetContentText("Foreground Service is running");
+
+            notifcationManager.Notify(NOTIFICATION_ID, notification.Build());
+        }
+
         public void Start()
         {
             Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(ForegroundServiceDemo));

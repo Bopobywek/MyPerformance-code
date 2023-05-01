@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MyPerformance.Models;
+using Plugin.LocalNotification;
 
 namespace MyPerformance.ViewModels
 {
@@ -48,6 +49,15 @@ namespace MyPerformance.ViewModels
                         if (Vibration.Default.IsSupported)
                         {
                             Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+                            var request = new NotificationRequest
+                            {
+                                NotificationId = 217,
+                                Title = $"Новая часть выступления: {PartName}",
+                                Description = "Вы переходите к новой части Вашего выступления",
+                                BadgeNumber = 1
+                            };
+
+                            LocalNotificationCenter.Current.Show(request);
                         }
                     }
                     else

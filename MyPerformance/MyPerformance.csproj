@@ -56,6 +56,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="nor0x.Maui.ColorPicker" Version="1.0.1" />
+		<PackageReference Include="Plugin.LocalNotification" Version="10.1.4" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.4" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
