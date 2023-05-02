@@ -23,9 +23,52 @@ namespace MyPerformance.ViewModels
         [ObservableProperty]
         private Color color;
 
+        [ObservableProperty]
+        private bool isTimerRunning;
+
+        [ObservableProperty]
+        private bool isSkipForwardAvailable;
+
+        [ObservableProperty]
+        private bool isSkipBackwardAvailable;
+
+        [ObservableProperty]
         private bool isEndSignalSend;
 
         private int position = 0;
+        private int Position
+        {
+            get => position;
+            set
+            {
+                var lastPosition = performance.PerformanceParts?.Length - 1 ?? 0;
+                if (value < 0 || value > lastPosition)
+                {
+                    return;
+                }
+                position = value;
+
+                if (position == 0)
+                {
+                    IsSkipBackwardAvailable = false;
+                }
+                else
+                {
+                    IsSkipBackwardAvailable = true;
+                }
+                if (position == lastPosition)
+                {
+                    IsSkipForwardAvailable = false;
+                }
+                else
+                {
+                    IsSkipForwardAvailable = true;
+                }
+
+                
+            }
+        }
+
         private PerformanceModel performance;
 
         IDispatcherTimer timer;
@@ -34,48 +77,67 @@ namespace MyPerformance.ViewModels
         {
             timer = Dispatcher.GetForCurrentThread().CreateTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Tick += (s, e) =>
+            timer.Tick += OnTimerTickThreadSafe;
+        }
+
+        private void OnTimerTickThreadSafe(object sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(() => {
+                OnTimerTick(sender, e);
+            });
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            Time -= TimeSpan.FromSeconds(1);
+
+            if (PartTime != TimeSpan.Zero)
             {
-                Time -= TimeSpan.FromSeconds(1);
+                PartTime -= TimeSpan.FromSeconds(1);
+                return;
+            }
 
-                if (PartTime == TimeSpan.Zero)
+            if (Position == performance.PerformanceParts.Length - 1 && isEndSignalSend)
+            {
+                return;
+            }
+            else if (Position == performance.PerformanceParts.Length - 1)
+            {
+                if (Vibration.Default.IsSupported)
                 {
-                    ++position;
-                    if (position < performance.PerformanceParts.Length)
-                    {
-                        PartTime = performance.PerformanceParts[position].Duration;
-                        Color = Color.Parse(performance.PerformanceParts[position].Color);
-                        PartNote = performance.PerformanceParts[position].Description;
-                        PartTime -= TimeSpan.FromSeconds(1);
-                        PartName = performance.PerformanceParts[position].Name;
-                        if (Vibration.Default.IsSupported)
-                        {
-                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
-                            var request = new NotificationRequest
-                            {
-                                NotificationId = 217,
-                                Title = $"Новая часть выступления: {PartName}",
-                                Description = "Вы переходите к новой части Вашего выступления",
-                                BadgeNumber = 1
-                            };
+                    Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(1000));
+                }
 
-                            LocalNotificationCenter.Current.Show(request);
-                        }
-                    }
-                    else
-                    {
-                        if (Vibration.Default.IsSupported && !isEndSignalSend)
-                        {
-                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(1000));
-                            isEndSignalSend = true;
-                        }
-                    }
-                }
-                else
+                isEndSignalSend = true;
+                return;
+            }
+
+            Position += 1;
+            UpdateTimerPart(performance.PerformanceParts[Position], 1);
+
+            if (Vibration.Default.IsSupported)
+            {
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+                var request = new NotificationRequest
                 {
-                    PartTime -= TimeSpan.FromSeconds(1);
-                }
-            };
+                    NotificationId = 217,
+                    Title = $"Новая часть выступления: {PartName}",
+                    Description = "Вы переходите к новой части Вашего выступления",
+                    BadgeNumber = 1
+                };
+
+                LocalNotificationCenter.Current.Show(request);
+            }
+        }
+
+
+        private void UpdateTimerPart(PerformancePartModel partModel, int offset)
+        {
+            PartTime = partModel.Duration;
+            Color = Color.Parse(partModel.Color);
+            PartNote = partModel.Description;
+            PartTime -= TimeSpan.FromSeconds(offset);
+            PartName = partModel.Name;
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -84,14 +146,23 @@ namespace MyPerformance.ViewModels
             {
                 var model = (PerformanceModel)query["timer"];
                 performance = model;
-                PartTime = model.PerformanceParts[0].Duration;
-                PartName = performance.PerformanceParts[0].Name;
-                PartNote = performance.PerformanceParts[0].Description;
+                Position = 0;
+                UpdateTimerPart(performance.PerformanceParts[0], 0);
                 Time = model.Duration;
-                Color = Color.Parse(model.PerformanceParts[0].Color);
                 query.Clear();
             }
 
+        }
+
+        [RelayCommand]
+        public void ChangeTimerState()
+        {
+            if (timer.IsRunning)
+            {
+                Stop();
+                return;
+            }
+            Run();
         }
 
         [RelayCommand]
@@ -104,12 +175,31 @@ namespace MyPerformance.ViewModels
 
 
             timer.Start();
+            IsTimerRunning = true;
+        }
+
+        [RelayCommand]
+        public void SkipForward()
+        {
+            if (Position != (performance.PerformanceParts?.Length - 1 ?? 0))
+            {
+                Position += 1;
+                UpdateTimerPart(performance.PerformanceParts[Position], 0);
+            }
+        }
+
+        [RelayCommand]
+        public void SkipBackward()
+        {
+            Position -= 1;
+            UpdateTimerPart(performance.PerformanceParts[Position], 0);
         }
 
         [RelayCommand]
         public void Stop()
         {
             timer.Stop();
+            IsTimerRunning = false;
         }
     }
 }
