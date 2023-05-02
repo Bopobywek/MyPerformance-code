@@ -1,22 +1,35 @@
 using MyPerformance.ViewModels;
-using Plugin.LocalNotification;
-
+#if ANDROID
+using MyPerformance.Platforms.Android;
+#endif
 namespace MyPerformance.Views;
 
 public partial class TimerPage : ContentPage
 {
+#if ANDROID
+    ForegroundServiceDemo _service;
+#endif
     public TimerPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
-		BindingContext = new TimerViewModel();
+        BindingContext = new TimerViewModel();
+        DeviceDisplay.KeepScreenOn = true;
+#if ANDROID
+        _service = new ForegroundServiceDemo();
+        _service.Start();
+#endif
     }
 
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
-	{
-		base.OnNavigatingFrom(args);
+    {
+        base.OnNavigatingFrom(args);
 
-		var viewModel = (TimerViewModel)BindingContext;
-		viewModel.StopCommand.Execute(null);
+        var viewModel = (TimerViewModel)BindingContext;
+        viewModel.StopCommand.Execute(null);
+
+#if ANDROID
+        _service.Stop();
+#endif
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
+using AndroidNet = Android.Net;
 using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Widget;
 using AndroidX.Core.App;
@@ -9,16 +11,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Net;
 
 namespace MyPerformance.Platforms.Android
 {
-    [Service]
+    [Service(Label = nameof(ForegroundServiceDemo))]
     public class ForegroundServiceDemo : Service
     {
         private string NOTIFICATION_CHANNEL_ID = "1000";
         private int NOTIFICATION_ID = 1;
         private string NOTIFICATION_CHANNEL_NAME = "notification";
+        private readonly ScreenOffBroadcastReceiver _screenOffBroadcastReceiver;
 
+        public ForegroundServiceDemo()
+        {
+            _screenOffBroadcastReceiver = new ScreenOffBroadcastReceiver();
+        }
         public override IBinder OnBind(Intent intent)
         {
             throw new NotImplementedException();
@@ -38,26 +46,20 @@ namespace MyPerformance.Platforms.Android
                 StopSelfResult(startId);
             }
 
-            return StartCommandResult.NotSticky;
+            return StartCommandResult.Sticky;
         }
 
-        public void Notify()
+        public override void OnCreate()
         {
-            var notifcationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+            base.OnCreate();
+            RegisterScreenOffBroadcastReceiver();
+        }
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            {
-                createNotificationChannel(notifcationManager);
-            }
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
 
-            var notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-            notification.SetAutoCancel(false);
-            notification.SetOngoing(true);
-            notification.SetSmallIcon(Resource.Mipmap.appicon);
-            notification.SetContentTitle("ForegroundService");
-            notification.SetContentText("Foreground Service is running");
-
-            notifcationManager.Notify(NOTIFICATION_ID, notification.Build());
+            UnregisterScreenOffBroadcastReceiver();
         }
 
         public void Start()
@@ -65,6 +67,28 @@ namespace MyPerformance.Platforms.Android
             Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(ForegroundServiceDemo));
             startService.SetAction("START_SERVICE");
             MainActivity.ActivityCurrent.StartService(startService);
+        }
+
+        private void RegisterScreenOffBroadcastReceiver()
+        {
+            var filter = new IntentFilter();
+            filter.AddAction(Intent.ActionScreenOff);
+            RegisterReceiver(_screenOffBroadcastReceiver, filter);
+        }
+
+        private void UnregisterScreenOffBroadcastReceiver()
+        {
+            try
+            {
+                if (_screenOffBroadcastReceiver != null)
+                {
+                    UnregisterReceiver(_screenOffBroadcastReceiver);
+                }
+            }
+            catch (Java.Lang.IllegalArgumentException ex)
+            {
+                Console.WriteLine($"Error while unregistering {nameof(ScreenOffBroadcastReceiver)}. {ex}");
+            }
         }
 
         public void Stop()

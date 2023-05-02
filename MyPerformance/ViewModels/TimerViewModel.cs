@@ -23,6 +23,8 @@ namespace MyPerformance.ViewModels
         [ObservableProperty]
         private Color color;
 
+        private bool isEndSignalSend;
+
         private int position = 0;
         private PerformanceModel performance;
 
@@ -62,11 +64,10 @@ namespace MyPerformance.ViewModels
                     }
                     else
                     {
-                        if (Vibration.Default.IsSupported)
+                        if (Vibration.Default.IsSupported && !isEndSignalSend)
                         {
-                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(100));
-                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
-                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(100));
+                            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(1000));
+                            isEndSignalSend = true;
                         }
                     }
                 }
@@ -100,6 +101,7 @@ namespace MyPerformance.ViewModels
             {
                 return;
             }
+
 
             timer.Start();
         }
