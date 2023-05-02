@@ -15,21 +15,21 @@ using Android.Net;
 
 namespace MyPerformance.Platforms.Android
 {
-    [Service(Label = nameof(ForegroundServiceDemo))]
-    public class ForegroundServiceDemo : Service
+    [Service(Label = nameof(ScreenOffService))]
+    public class ScreenOffService : Service
     {
         private string NOTIFICATION_CHANNEL_ID = "1000";
         private int NOTIFICATION_ID = 1;
         private string NOTIFICATION_CHANNEL_NAME = "notification";
         private readonly ScreenOffBroadcastReceiver _screenOffBroadcastReceiver;
 
-        public ForegroundServiceDemo()
+        public ScreenOffService()
         {
             _screenOffBroadcastReceiver = new ScreenOffBroadcastReceiver();
         }
         public override IBinder OnBind(Intent intent)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         [return: GeneratedEnum]
@@ -38,7 +38,6 @@ namespace MyPerformance.Platforms.Android
             if (intent.Action == "START_SERVICE")
             {
                 RegisterNotification();
-                Toast.MakeText(this, "Service Start", ToastLength.Long).Show();
             }
             else if (intent.Action == "STOP_SERVICE")
             {
@@ -60,11 +59,12 @@ namespace MyPerformance.Platforms.Android
             base.OnDestroy();
 
             UnregisterScreenOffBroadcastReceiver();
+            _screenOffBroadcastReceiver?.Dispose();
         }
 
         public void Start()
         {
-            Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(ForegroundServiceDemo));
+            Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(ScreenOffService));
             startService.SetAction("START_SERVICE");
             MainActivity.ActivityCurrent.StartService(startService);
         }
@@ -118,8 +118,8 @@ namespace MyPerformance.Platforms.Android
             notification.SetAutoCancel(false);
             notification.SetOngoing(true);
             notification.SetSmallIcon(Resource.Mipmap.appicon);
-            notification.SetContentTitle("ForegroundService");
-            notification.SetContentText("Foreground Service is running");
+            notification.SetContentTitle("MyPerformance");
+            notification.SetContentText("Запущен таймер для выступления...");
 
             StartForeground(NOTIFICATION_ID, notification.Build());
         }

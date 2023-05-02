@@ -7,7 +7,7 @@ namespace MyPerformance.Views;
 public partial class TimerPage : ContentPage
 {
 #if ANDROID
-    ForegroundServiceDemo _service;
+    ScreenOffService _service;
 #endif
     public TimerPage()
     {
@@ -16,7 +16,7 @@ public partial class TimerPage : ContentPage
         BindingContext = new TimerViewModel();
         DeviceDisplay.KeepScreenOn = true;
 #if ANDROID
-        _service = new ForegroundServiceDemo();
+        _service = new ScreenOffService();
         _service.Start();
 #endif
     }
