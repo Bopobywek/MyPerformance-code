@@ -11,6 +11,8 @@ namespace MyPerformance.Models
         public string Name { get; set; }
         public TimeSpan Duration { get; set; }
         public DateTime Date { get; set; }
+        public bool IsVibrationEnable { get; set; }
+        public bool IsNotificationEnable { get; set; }
 
         [OneToMany("PerformanceId")]
         public PerformancePartModel[] PerformanceParts { get; set; }

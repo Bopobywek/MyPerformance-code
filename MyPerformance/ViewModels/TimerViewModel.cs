@@ -67,7 +67,7 @@ namespace MyPerformance.ViewModels
                     IsSkipForwardAvailable = true;
                 }
 
-                
+
             }
         }
 
@@ -84,7 +84,8 @@ namespace MyPerformance.ViewModels
 
         private void OnTimerTickThreadSafe(object sender, EventArgs e)
         {
-            MainThread.BeginInvokeOnMainThread(() => {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
                 OnTimerTick(sender, e);
             });
         }
@@ -105,10 +106,17 @@ namespace MyPerformance.ViewModels
             }
             else if (Position == performance.PerformanceParts.Length - 1)
             {
-                if (Vibration.Default.IsSupported)
+                if (performance.IsVibrationEnable)
                 {
-                    Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(1000));
+                    Vibrate(TimeSpan.FromMilliseconds(1000));
                 }
+
+                if (performance.IsNotificationEnable)
+                {
+                    SendNotification("Выступление подошло к концу",
+                        $"Запланированное время для выступления {performance.Name} истекло");
+                }
+
 
                 isEndSignalSend = true;
                 return;
@@ -117,19 +125,37 @@ namespace MyPerformance.ViewModels
             Position += 1;
             UpdateTimerPart(performance.PerformanceParts[Position], 1);
 
+            if (performance.IsVibrationEnable)
+            {
+                Vibrate(TimeSpan.FromMilliseconds(500));
+            }
+
+            if (performance.IsNotificationEnable)
+            {
+                SendNotification($"Новая часть выступления: {PartName}",
+                "Вы переходите к новой части Вашего выступления");
+            }
+        }
+
+        private void Vibrate(TimeSpan duration)
+        {
             if (Vibration.Default.IsSupported)
             {
-                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
-                var request = new NotificationRequest
-                {
-                    NotificationId = 217,
-                    Title = $"Новая часть выступления: {PartName}",
-                    Description = "Вы переходите к новой части Вашего выступления",
-                    BadgeNumber = 1
-                };
-
-                LocalNotificationCenter.Current.Show(request);
+                Vibration.Default.Vibrate(duration);
             }
+        }
+
+        private void SendNotification(string title, string description)
+        {
+            var request = new NotificationRequest
+            {
+                NotificationId = 217,
+                Title = title,
+                Description = description,
+                BadgeNumber = 1
+            };
+
+            LocalNotificationCenter.Current.Show(request);
         }
 
 

@@ -22,6 +22,12 @@ namespace MyPerformance.ViewModels
         private readonly IAlertService alertService;
         public ValidatableObject<string> Name { get; private set; } = new();
 
+        [ObservableProperty]
+        private bool isVibrationEnable;
+
+        [ObservableProperty]
+        private bool isNotificationEnable;
+
         private int id;
         private PerformancePartModel draggedItem;
         public ICommand AddCommand { get; set; }
@@ -120,6 +126,8 @@ namespace MyPerformance.ViewModels
                 {
                     PerformanceParts.Add(part);
                 }
+                IsNotificationEnable = model.IsNotificationEnable;
+                IsVibrationEnable = model.IsVibrationEnable;
                 OnPropertyChanged(nameof(PerformanceParts));
                 query.Clear();
             }
@@ -152,6 +160,8 @@ namespace MyPerformance.ViewModels
                 Name = Name.Value,
                 Date = new DateTime(2023, 5, 1),
                 Duration = new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)),
+                IsVibrationEnable = IsVibrationEnable,
+                IsNotificationEnable = IsNotificationEnable,
                 PerformanceParts = PerformanceParts.ToArray()
             };
 

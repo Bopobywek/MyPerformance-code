@@ -56,7 +56,7 @@
                     Grid.Column="1"
                     BackgroundColor="Gray"
                     FontFamily="NunitoBold"
-                    Text="Таймер"
+                    Text="Таймер и дата"
                     Clicked="TimerButton_Clicked" />
 
         </Grid>
@@ -76,6 +76,7 @@
                               HeightRequest="50"
                               Scale="1.5"
                               Color="#1282A2"
+                              IsChecked="{Binding IsVibrationEnable}"
                           Grid.Column="0" />
                 <Label VerticalOptions="CenterAndExpand"
                            FontFamily="NunitoBold"
@@ -98,34 +99,13 @@
                               HeightRequest="50"
                               Scale="1.5"
                               Color="#1282A2"
+                          IsChecked="{Binding IsNotificationEnable}"
                           Grid.Column="0" />
                 <Label VerticalOptions="CenterAndExpand"
                            FontFamily="NunitoBold"
                            FontSize="16"
                            LineBreakMode="WordWrap"
-                           Text="Включить звуковые сигналы при переходе между частями" Grid.Column="1" Grid.Row="0" />
-            </Grid>
-            <Grid Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <CheckBox VerticalOptions="Center"
-                              WidthRequest="50"
-                              HeightRequest="50"
-                              Scale="1.5"
-                              Color="#1282A2"
-                          Grid.Column="0" />
-                <Label VerticalOptions="CenterAndExpand"
-                           FontFamily="NunitoBold"
-                           FontSize="16"
-                           LineBreakMode="WordWrap"
-                           Text="Включить отображение заметок" Grid.Column="1" Grid.Row="0" />
+                           Text="Включить отправку уведомлений при переходе между частями" Grid.Column="1" Grid.Row="0" />
             </Grid>
         </StackLayout>
         <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts}" Grid.Row="2" IsVisible="True">
