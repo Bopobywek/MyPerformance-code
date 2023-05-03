@@ -28,6 +28,12 @@ namespace MyPerformance.ViewModels
         [ObservableProperty]
         private bool isNotificationEnable;
 
+        [ObservableProperty]
+        private DateTime date;
+
+        [ObservableProperty]
+        private TimeSpan time;
+
         private int id;
         private PerformancePartModel draggedItem;
         public ICommand AddCommand { get; set; }
@@ -126,6 +132,8 @@ namespace MyPerformance.ViewModels
                 {
                     PerformanceParts.Add(part);
                 }
+                Date = model.Date;
+                Time = new TimeSpan(model.Date.Hour, model.Date.Minute, model.Date.Second);
                 IsNotificationEnable = model.IsNotificationEnable;
                 IsVibrationEnable = model.IsVibrationEnable;
                 OnPropertyChanged(nameof(PerformanceParts));
@@ -158,7 +166,7 @@ namespace MyPerformance.ViewModels
             {
                 Id = id,
                 Name = Name.Value,
-                Date = new DateTime(2023, 5, 1),
+                Date = new DateTime(Date.Year, Date.Month, Date.Day, Time.Hours, Time.Minutes, Time.Seconds),
                 Duration = new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)),
                 IsVibrationEnable = IsVibrationEnable,
                 IsNotificationEnable = IsNotificationEnable,

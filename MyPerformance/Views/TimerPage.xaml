@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyPerformance.Views.TimerPage"
              xmlns:converters="clr-namespace:MyPerformance.Converters"
-             Title="TimerPage">
+             Title="Таймер">
     <ContentPage.Resources>
         <converters:BoolToTimerStateImageNameConverter x:Key="boolToTimerImage" />
     </ContentPage.Resources>

@@ -61,20 +61,24 @@
                             <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
                                 <Image 
                                    Source="clock.png"
+                                    HorizontalOptions="Center"
                                    HeightRequest="20" />
                                 <Label
                                    Margin="5,0,0,0"
                                    Text="{Binding Duration}"
+                                    HorizontalOptions="Center"
                                    FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
                                 <Image 
                                    Source="calendar.png"
+                                    HorizontalOptions="Center"
                                    HeightRequest="20" />
                                 <Label
                                    Margin="5,0,0,0"
-                                   Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
+                                   Text="{Binding Date, StringFormat='{0:dd MMMM yyyy HH:mm}'}"
+                                    HorizontalOptions="Center"
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>

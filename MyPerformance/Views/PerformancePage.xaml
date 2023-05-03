@@ -60,54 +60,75 @@
                     Clicked="TimerButton_Clicked" />
 
         </Grid>
-        <StackLayout x:Name="TimerSettings" Grid.Row="2" IsVisible="False" Orientation="Vertical">
-            <Grid Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
+        <ScrollView x:Name="TimerSettings" VerticalScrollBarVisibility="Never" Grid.Row="2" IsVisible="False">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <CheckBox VerticalOptions="Center"
+                <Grid Grid.Row="0" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <CheckBox VerticalOptions="Center"
                               WidthRequest="50"
                               HeightRequest="50"
                               Scale="1.5"
                               Color="#1282A2"
                               IsChecked="{Binding IsVibrationEnable}"
                           Grid.Column="0" />
-                <Label VerticalOptions="CenterAndExpand"
+                    <Label VerticalOptions="CenterAndExpand"
                            FontFamily="NunitoBold"
                            FontSize="16"
                            LineBreakMode="WordWrap"
                            Text="Включить вибрацию при переходе между частями" Grid.Column="1" Grid.Row="0" />
-            </Grid>
-            <Grid Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                </Grid>
+                <Grid Grid.Row="1" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <CheckBox VerticalOptions="Center"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <CheckBox VerticalOptions="Center"
                               WidthRequest="50"
                               HeightRequest="50"
                               Scale="1.5"
                               Color="#1282A2"
                           IsChecked="{Binding IsNotificationEnable}"
                           Grid.Column="0" />
-                <Label VerticalOptions="CenterAndExpand"
+                    <Label VerticalOptions="CenterAndExpand"
                            FontFamily="NunitoBold"
                            FontSize="16"
                            LineBreakMode="WordWrap"
                            Text="Включить отправку уведомлений при переходе между частями" Grid.Column="1" Grid.Row="0" />
+                </Grid>
+
+                <VerticalStackLayout Grid.Row="2" Grid.RowSpan="2" Padding="20,0,0,0" Spacing="5">
+                    <Label Text="Дата выступления" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <DatePicker FontFamily="NunitoBold" FontSize="18" Date="{Binding Date}" />
+                    <Label Margin="0,10,0,0"
+                       Text="Время выступления" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <TimePicker FontFamily="NunitoBold" FontSize="18" Format="t" Time="{Binding Time}"/>
+                </VerticalStackLayout>
             </Grid>
-        </StackLayout>
+        </ScrollView>
+
         <CollectionView x:Name="PlanSettings" ItemsSource="{Binding PerformanceParts}" Grid.Row="2" IsVisible="True">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
