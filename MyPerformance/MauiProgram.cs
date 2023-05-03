@@ -37,9 +37,11 @@ public static class MauiProgram
             .AddTransient<PerformancePartViewModel>()
             .AddTransient<PerformanceViewModel>()
             .AddTransient<PerformancePage>()
+            .AddTransient<TimerPage>()
             .AddTransient<MainPage>()
             .AddTransient<MainViewModel>()
             .AddTransient<PerformancePartPage>()
+            .AddTransient<TimerViewModel>()
             .AddSingleton<IAlertService, AlertService>(); ;
 
         Routing.RegisterRoute(nameof(PerformancePage), typeof(PerformancePage));

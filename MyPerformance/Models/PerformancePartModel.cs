@@ -24,5 +24,10 @@ namespace MyPerformance.Models
         [ForeignKey(typeof(PerformanceModel))]
         public int PerformanceId { get; set; }
 
+        [Ignore]
+        public bool IsBeingDragged { get; set; }
+        [Ignore]
+        public bool IsBeingDraggedOver { get; set; }
+
     }
 }

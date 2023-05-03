@@ -27,7 +27,7 @@
                 <Entry Placeholder="Название"
                        x:Name="NameInput"
                        FontFamily="NunitoBold"
-                       Text="{Binding Name, Mode=TwoWay}"
+                       Text="{Binding Name.Value, Mode=TwoWay}"
                        FontSize="24"
                        IsTextPredictionEnabled="True" />
                 <BoxView CornerRadius="5" HeightRequest="3"
@@ -134,7 +134,24 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:PerformancePartModel">
-                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding Color, Converter={StaticResource stringToColor} }">
+                    <Border StrokeThickness="0"
+                            Margin="30,0,30,0"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{Binding Color, Converter={StaticResource stringToColor}}">
+                        <Border.GestureRecognizers>
+                            <DragGestureRecognizer 
+                                CanDrag="True"
+                                DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=ItemDraggedCommand}"
+                                DragStartingCommandParameter="{Binding .}"/>
+                            <DropGestureRecognizer
+                                AllowDrop="True"
+                                DragLeaveCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=ItemDragLeaveCommand}"
+                                DragLeaveCommandParameter="{Binding . }"
+                                DragOverCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=ItemDraggedOverCommand}"
+                                DragOverCommandParameter="{Binding .}"
+                                DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:PerformanceViewModel}}, Path=ItemDroppedCommand}"
+                                DropCommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="15" />
                         </Border.StrokeShape>
@@ -182,6 +199,12 @@
                                     FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
                             </HorizontalStackLayout>
+
+                            <Image
+                                   Source="drag_and_drop.png"
+                                   HeightRequest="30" WidthRequest="25" Grid.Column="2" Grid.Row="0"
+                                HorizontalOptions="EndAndExpand"/>
+
                             <HorizontalStackLayout HorizontalOptions="End"
                                                    Grid.Column="1"
                                                    Grid.Row="3"

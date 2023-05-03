@@ -11,32 +11,30 @@
             <RowDefinition Height="9*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-    <ScrollView Grid.Row="0">
-        <VerticalStackLayout Padding="10" Spacing="30">
-            <VerticalStackLayout >
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="10" Spacing="30">
+                <VerticalStackLayout >
                     <Entry Placeholder="Название"
                        x:Name="NameInput"
                        MaxLength="128"
                        FontFamily="NunitoBold"
                        FontSize="24"
-                           Text="{Binding Name}"
+                           Text="{Binding Name.Value}"
                        IsTextPredictionEnabled="True">
                         <Entry.Behaviors>
-                            <toolkit:TextValidationBehavior
-                                Flags="ValidateOnAttaching,ValidateOnAttaching"
-                                MinimumLength="1" />
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateNameCommand}"/>
                         </Entry.Behaviors>
                     </Entry>
                     <BoxView CornerRadius="5" HeightRequest="3"
                         VerticalOptions="Center"
                         Opacity="0.8"
                         Color="Black" />
-            </VerticalStackLayout>
-            <VerticalStackLayout>
-                <Label Text="Заметка" 
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="Заметка" 
                 FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
-                <Editor
+                    <Editor
                 x:Name="NoteEditor"
                 Placeholder="Введите текст заметки..."
                 AutoSize="TextChanges"
@@ -45,12 +43,12 @@
                 WidthRequest="{Binding Source={x:Reference NameInput}, Path=Width}"
                     Text="{Binding Description}"
                 MinimumWidthRequest="100" />
-            </VerticalStackLayout>
-            <VerticalStackLayout>
-                <Label Text="Длительность (чч:мм:сс)" 
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="Длительность (чч:мм:сс)" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
-                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time, Mode=TwoWay}"/>
+                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time.Value, Mode=TwoWay}"/>
                     <!--<HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
 
                     <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
@@ -59,23 +57,23 @@
                     <Label Margin="0,7,0,0" FontSize="30" Text=":" />
                     <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
                 </HorizontalStackLayout>-->
-            </VerticalStackLayout>
-            
+                </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="20">
-                <Label Text="Цвет части" 
+
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Цвет части" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
-                <HorizontalStackLayout Spacing="10">
-                    <Border StrokeThickness="3" x:Name="ColorBlock"
+                    <HorizontalStackLayout Spacing="10">
+                        <Border StrokeThickness="3" x:Name="ColorBlock"
                         WidthRequest="{Binding Source={x:Reference ColorButton}, Path=Width}"
                         HeightRequest="{Binding Source={x:Reference ColorButton}, Path=Height}"
                         BackgroundColor="{Binding Color}" />
-                    <Button x:Name="ColorButton" Text="Выбрать цвет" Command="{ Binding SelectColor }" />
-                </HorizontalStackLayout>
+                        <Button x:Name="ColorButton" Text="Выбрать цвет" Command="{ Binding SelectColor }" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
             </VerticalStackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
         <Button Grid.Row="1" Text="Сохранить" Command="{Binding SaveCommand}"></Button>
     </Grid>
 

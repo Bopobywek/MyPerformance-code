@@ -35,6 +35,8 @@ namespace MyPerformance.ViewModels
         [ObservableProperty]
         private bool isEndSignalSend;
 
+        public bool IsTimerAlreadyStarted { get; private set; }
+
         private int position = 0;
         private int Position
         {
@@ -146,6 +148,7 @@ namespace MyPerformance.ViewModels
             {
                 var model = (PerformanceModel)query["timer"];
                 performance = model;
+                Array.Sort(performance.PerformanceParts, (x, y) => x.Position.CompareTo(y.Position));
                 Position = 0;
                 UpdateTimerPart(performance.PerformanceParts[0], 0);
                 Time = model.Duration;
@@ -175,6 +178,7 @@ namespace MyPerformance.ViewModels
 
 
             timer.Start();
+            IsTimerAlreadyStarted = true;
             IsTimerRunning = true;
         }
 
