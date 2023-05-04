@@ -12,10 +12,105 @@
             <RowDefinition Height="8*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
-        <RefreshView Grid.Row="0"
-                     Margin="0,0,0,0"
-                     IsRefreshing="{Binding IsRefreshing}"
-                     Command="{Binding RefreshCommand}"
+        <CollectionView x:Name="StatisticsView"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start"
+                        Grid.Row="0"
+                        IsVisible="False"
+                        ItemsSource="{Binding Performances}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.Header>
+                <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:PerformanceModel">
+                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15" />
+                        </Border.StrokeShape>
+                        <Grid Padding="20" RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Text="{Binding Name}"
+                                   LineBreakMode="WordWrap"
+                                   WidthRequest="180"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAutoScalingEnabled="True"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
+                            <HorizontalStackLayout  Grid.Column="0" Grid.Row="1">
+                                <Label 
+                                   Text="Количество выступлений: "
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding NumberOfLaunches}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="0" Grid.Row="2">
+                                <Label 
+                                   Text="Среднее время выступления: "
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding AverageDuration}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Column="0" Grid.Row="3">
+                                <Label 
+                                   Text="Среднее время задержки: "
+                                   FontFamily="NunitoBold"
+                                   HorizontalOptions="Start"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding AverageDelayTime}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <Button Text="Сбросить историю"
+                                    CornerRadius="15"
+                                    BackgroundColor="#1282A2"
+                                    FontFamily="NunitoBold"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ClearStatisticsCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Grid.Row="4"></Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <RefreshView x:Name="PerformancesView"
+                        Grid.Row="0"
+                        Margin="0,0,0,0"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        Command="{Binding RefreshCommand}"
                         HorizontalOptions="StartAndExpand"
                         VerticalOptions="Start">
             <CollectionView x:Name="PerformanceCollection"
@@ -153,25 +248,26 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button HeightRequest="80"
+                <Button x:Name="PerformancesButton"
+                        HeightRequest="80"
                         WidthRequest="80"
                         CornerRadius="15"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
                         BackgroundColor="#A6E1FA"
+                        Clicked="Button_Clicked_1"
                         Grid.Column="0">
                 </Button>
-                <Button HeightRequest="80"
+                <Button x:Name="StatisticsButton"
+                        HeightRequest="80"
                         WidthRequest="80"
                         CornerRadius="15"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
                         BackgroundColor="#A6E1FA"
+                        Clicked="Button_Clicked_2"
                         Grid.Column="1">
-                </Button>
-                <Button HeightRequest="80"
-                        WidthRequest="80"
-                        CornerRadius="15"
-                        BackgroundColor="#A6E1FA"
-                        Grid.Column="2">
                 </Button>
             </Grid>
         </Border>

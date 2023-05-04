@@ -95,5 +95,26 @@ namespace MyPerformance.ViewModels
             IsRefreshing = false;
         }
 
+        [RelayCommand]
+        public async Task ClearStatistics(PerformanceModel performance)
+        {
+            var result = await alertService.ShowConfirmationAsync("Очистить историю?",
+                "Вы действительно хотите удалить историю для данного выступления?", "Да", "Нет");
+            if (!result)
+            {
+                return;
+            }
+
+            var newPerformance = performancesRepository.Query(performance.Id);
+
+            newPerformance.NumberOfLaunches = 0;
+            newPerformance.TotalDelayTime = 0;
+            newPerformance.TotalDuration = 0;
+
+            performancesRepository.AddOrUpdate(newPerformance);
+            MainThread.BeginInvokeOnMainThread(() => {
+                UpdatePerformances();
+            });
+        }
     }
 }

@@ -16,5 +16,17 @@ public partial class MainPage : ContentPage
 	{
 
 	}
+
+	private void Button_Clicked_1(object sender, EventArgs e)
+	{
+		PerformancesView.IsVisible = true;
+		StatisticsView.IsVisible = false;
+	}
+
+	private void Button_Clicked_2(object sender, EventArgs e)
+	{
+        PerformancesView.IsVisible = false;
+        StatisticsView.IsVisible = true;
+    }
 }
 

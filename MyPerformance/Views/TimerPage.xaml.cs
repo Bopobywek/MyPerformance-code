@@ -32,6 +32,7 @@ public partial class TimerPage : ContentPage
 
         var viewModel = (TimerViewModel)BindingContext;
         viewModel.StopCommand.Execute(null);
+        viewModel.SaveStatisticsCommand.Execute(null);
 
 #if ANDROID
         _service.Stop();

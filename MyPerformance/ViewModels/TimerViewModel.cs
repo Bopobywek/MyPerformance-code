@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MyPerformance.Models;
+using MyPerformance.Repositories;
 using Plugin.LocalNotification;
 
 namespace MyPerformance.ViewModels
@@ -74,9 +75,11 @@ namespace MyPerformance.ViewModels
         private PerformanceModel performance;
 
         IDispatcherTimer timer;
+        private readonly PerformancesRepository performancesRepository;
 
-        public TimerViewModel()
+        public TimerViewModel(PerformancesRepository performancesRepository)
         {
+            this.performancesRepository = performancesRepository;
             timer = Dispatcher.GetForCurrentThread().CreateTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1000);
             timer.Tick += OnTimerTickThreadSafe;
@@ -202,7 +205,6 @@ namespace MyPerformance.ViewModels
                 return;
             }
 
-
             timer.Start();
             IsTimerAlreadyStarted = true;
             IsTimerRunning = true;
@@ -230,6 +232,21 @@ namespace MyPerformance.ViewModels
         {
             timer.Stop();
             IsTimerRunning = false;
+        }
+
+        [RelayCommand]
+        public void SaveStatistics()
+        {
+            if (IsTimerAlreadyStarted)
+            {
+                var delay = Math.Abs(Math.Min(Time.TotalSeconds, 0));
+                var totalDuration = performance.Duration.TotalSeconds + delay;
+                ++performance.NumberOfLaunches;
+                performance.TotalDuration += totalDuration;
+                performance.TotalDelayTime += delay;
+
+                performancesRepository.AddOrUpdate(performance);
+            }
         }
     }
 }
