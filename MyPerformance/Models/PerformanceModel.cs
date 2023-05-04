@@ -10,7 +10,8 @@ namespace MyPerformance.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public TimeSpan Duration { get; set; }
-        public DateTime Date { get; set; }
+        public bool IsDateSet { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public bool IsVibrationEnable { get; set; }
         public bool IsNotificationEnable { get; set; }
 

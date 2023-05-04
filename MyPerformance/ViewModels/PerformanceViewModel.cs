@@ -13,6 +13,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+#if ANDROID
+using MyPerformance.Platforms.Android;
+#endif
+
 namespace MyPerformance.ViewModels
 {
     [ObservableObject]
@@ -29,7 +33,10 @@ namespace MyPerformance.ViewModels
         private bool isNotificationEnable;
 
         [ObservableProperty]
-        private DateTime date;
+        private bool isDateEnable;
+
+        [ObservableProperty]
+        private DateTime date = DateTime.Now;
 
         [ObservableProperty]
         private TimeSpan time;
@@ -100,6 +107,22 @@ namespace MyPerformance.ViewModels
             });
         }
 
+        [RelayCommand]
+        public void SetNotificationToCalendar()
+        {
+#if ANDROID
+            var calendarEvent = new CalendarEvent
+            {
+                Title = Name.Value,
+                BeginTime = Date,
+                IsEndTimeSet = true,
+                EndTime = Date.AddTicks(new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)).Ticks)
+            };
+
+            CalendarEventService.SetEvent(calendarEvent);
+#endif
+        }
+
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             if (query.ContainsKey("add"))
@@ -132,14 +155,21 @@ namespace MyPerformance.ViewModels
                 {
                     PerformanceParts.Add(part);
                 }
-                Date = model.Date;
+                IsDateEnable = model.IsDateSet;
+                if (model.IsDateSet)
+                {
+                    Date = model.Date;
+                }
+                else
+                {
+                    Date = DateTime.Now;
+                }
                 Time = new TimeSpan(model.Date.Hour, model.Date.Minute, model.Date.Second);
                 IsNotificationEnable = model.IsNotificationEnable;
                 IsVibrationEnable = model.IsVibrationEnable;
                 OnPropertyChanged(nameof(PerformanceParts));
                 query.Clear();
             }
-            query.Clear();
         }
 
         [RelayCommand]
@@ -166,6 +196,7 @@ namespace MyPerformance.ViewModels
             {
                 Id = id,
                 Name = Name.Value,
+                IsDateSet = IsDateEnable,
                 Date = new DateTime(Date.Year, Date.Month, Date.Day, Time.Hours, Time.Minutes, Time.Seconds),
                 Duration = new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)),
                 IsVibrationEnable = IsVibrationEnable,

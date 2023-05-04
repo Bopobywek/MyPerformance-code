@@ -12,118 +12,118 @@
             <RowDefinition Height="8*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
-        <CollectionView Grid.Row="0"
-                        VerticalScrollBarVisibility="Never"
+        <RefreshView Grid.Row="0"
+                     Margin="0,0,0,0"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}"
                         HorizontalOptions="StartAndExpand"
-                        VerticalOptions="Start"
+                        VerticalOptions="Start">
+            <CollectionView x:Name="PerformanceCollection"
+                        VerticalScrollBarVisibility="Never"
                         ItemsSource="{Binding Performances}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-            </CollectionView.ItemsLayout>
-            <!--<CollectionView.ItemsSource>
-                <x:Array Type="{x:Type local:PerformanceModel}">
-                    <local:PerformanceModel Name="Защита курсовой"/>
-                    <local:PerformanceModel Name="Маленький питч"/>
-                    <local:PerformanceModel Name="Большое название 123 123 123 123"/>
-                </x:Array>
-            </CollectionView.ItemsSource>-->
-            <CollectionView.Header>
-                <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="local:PerformanceModel">
-                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="15" />
-                        </Border.StrokeShape>
-                        <Grid Padding="20" RowSpacing="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.ColumnSpan="2"
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:PerformanceModel">
+                        <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15" />
+                            </Border.StrokeShape>
+                            <Grid Padding="20" RowSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.ColumnSpan="2"
                                    Grid.Column="0"
                                    Grid.Row="0"
                                    Text="{Binding Name}"
-                                   LineBreakMode="TailTruncation"
+                                   LineBreakMode="WordWrap"
                                    WidthRequest="180"
                                    FontFamily="NunitoBold"
                                    FontAutoScalingEnabled="True"
                                    FontSize="20"
                                    FontAttributes="Bold" />
-                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
-                                <Image 
+                                <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
+                                    <Image 
                                    Source="clock.png"
                                     HorizontalOptions="Center"
                                    HeightRequest="20" />
-                                <Label
+                                    <Label
                                    Margin="5,0,0,0"
                                    Text="{Binding Duration}"
                                     HorizontalOptions="Center"
                                    FontFamily="NunitoBold"
                                    FontAttributes="Bold" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
-                                <Image 
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
+                                    <Image 
                                    Source="calendar.png"
                                     HorizontalOptions="Center"
+                                   IsVisible="{Binding IsDateSet}"
                                    HeightRequest="20" />
-                                <Label
+                                    <Label
                                    Margin="5,0,0,0"
                                    Text="{Binding Date, StringFormat='{0:dd MMMM yyyy HH:mm}'}"
-                                    HorizontalOptions="Center"
-                                    FontFamily="NunitoBold"
+                                   HorizontalOptions="Center"
+                                   FontFamily="NunitoBold"
+                                   IsVisible="{Binding IsDateSet}"
                                    FontAttributes="Bold" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout HorizontalOptions="End"
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout HorizontalOptions="End"
+                                                       VerticalOptions="Start"
                                                    Grid.Column="2"
                                                    Grid.Row="0"
                                                    Grid.ColumnSpan="2"
                                                    Spacing="10">
-                                <Image
+                                    <Image
                                    Source="delete.png"
                                    HeightRequest="25">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
                                                         CommandParameter="{Binding .}" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Image
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image
                                    Source="edit.png"
                                    HeightRequest="25">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=EditCommand}"
                                                         CommandParameter="{Binding Id}" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </HorizontalStackLayout>
-                            <Image VerticalOptions="End"
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </HorizontalStackLayout>
+                                <Image VerticalOptions="End"
                                    HorizontalOptions="End"
                                    Grid.Column="3" Grid.Row="1" Grid.RowSpan="2"
                                    Source="run.png"
                                    HeightRequest="25">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=RunCommand}"
                                                         CommandParameter="{Binding .}" />
-                                </Image.GestureRecognizers>
-                            </Image>
+                                    </Image.GestureRecognizers>
+                                </Image>
 
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.Footer>
-                <Button
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <Button
                     Opacity="20"
                     HeightRequest="127"
                     CornerRadius="15"
@@ -137,12 +137,13 @@
                     HorizontalOptions="Fill"
                     Command="{Binding AddCommand}"
                     Clicked="Button_Clicked">
-                    <Button.Text>
-                        Создать новое выступление
-                    </Button.Text>
-                </Button>
-            </CollectionView.Footer>
-        </CollectionView>
+                        <Button.Text>
+                            Создать новое выступление
+                        </Button.Text>
+                    </Button>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
         <Border Grid.Row="1" Margin="10,0,10,20" StrokeThickness="0" BackgroundColor="#1282A2">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="15" />

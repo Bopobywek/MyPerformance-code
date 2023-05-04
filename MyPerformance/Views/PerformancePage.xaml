@@ -66,6 +66,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Padding="10">
@@ -114,18 +116,50 @@
                            LineBreakMode="WordWrap"
                            Text="Включить отправку уведомлений при переходе между частями" Grid.Column="1" Grid.Row="0" />
                 </Grid>
+                <Grid Grid.Row="2" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <VerticalStackLayout Grid.Row="2" Grid.RowSpan="2" Padding="20,0,0,0" Spacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <CheckBox VerticalOptions="Center"
+                              WidthRequest="50"
+                              HeightRequest="50"
+                              Scale="1.5"
+                              IsChecked="{Binding IsDateEnable}"
+                              Color="#1282A2"
+                          Grid.Column="0" />
+                    <Label VerticalOptions="CenterAndExpand"
+                           FontFamily="NunitoBold"
+                           FontSize="16"
+                           LineBreakMode="WordWrap"
+                           Text="Указать дату выступления" Grid.Column="1" Grid.Row="0" />
+                </Grid>
+                <VerticalStackLayout IsVisible="{Binding IsDateEnable}"
+                                     Grid.Row="3" Grid.RowSpan="2" Padding="20,0,0,0" Spacing="5">
                     <Label Text="Дата выступления" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
-                    <DatePicker FontFamily="NunitoBold" FontSize="18" Date="{Binding Date}" />
+                    <DatePicker x:Name="PerformanceDatePicker"
+                                FontFamily="NunitoBold" FontSize="18" Date="{Binding Date}" />
                     <Label Margin="0,10,0,0"
                        Text="Время выступления" 
                         FontFamily="NunitoBold"
                        TextColor="Gray"></Label>
                     <TimePicker FontFamily="NunitoBold" FontSize="18" Format="t" Time="{Binding Time}"/>
                 </VerticalStackLayout>
+                <Button Grid.Row="5"
+                        Margin="20,10,100,0"
+                        FontFamily="NunitoBold"
+                        FontSize="15"
+                        BackgroundColor="#034078"
+                        Text="Установить напоминание"
+                        IsVisible="{Binding IsDateEnable}"
+                        Command="{Binding SetNotificationToCalendarCommand}"></Button>
             </Grid>
         </ScrollView>
 

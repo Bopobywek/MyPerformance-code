@@ -15,6 +15,8 @@ namespace MyPerformance.ViewModels
         private readonly IAlertService alertService;
 
         public ObservableCollection<PerformanceModel> Performances { get; } = new();
+        [ObservableProperty]
+        private bool isRefreshing;
 
         public MainViewModel(PerformancesRepository performancesRepository, IAlertService alertService)
         {
@@ -61,7 +63,9 @@ namespace MyPerformance.ViewModels
                 return;
             }
             performancesRepository.Delete(model.Id);
-            Performances.Remove(model);
+            MainThread.BeginInvokeOnMainThread(() => {
+                Performances.Remove(model);
+            });
         }
 
         [RelayCommand]
@@ -83,6 +87,13 @@ namespace MyPerformance.ViewModels
             }
         }
 
+        [RelayCommand]
+        public void Refresh()
+        {
+            IsRefreshing = true;
+            UpdatePerformances();
+            IsRefreshing = false;
+        }
 
     }
 }
