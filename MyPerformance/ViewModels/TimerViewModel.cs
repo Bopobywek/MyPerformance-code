@@ -240,7 +240,7 @@ namespace MyPerformance.ViewModels
             if (IsTimerAlreadyStarted)
             {
                 var delay = Math.Abs(Math.Min(Time.TotalSeconds, 0));
-                var totalDuration = performance.Duration.TotalSeconds + delay;
+                var totalDuration = performance.Duration.TotalSeconds - Time.TotalSeconds;
                 ++performance.NumberOfLaunches;
                 performance.TotalDuration += totalDuration;
                 performance.TotalDelayTime += delay;

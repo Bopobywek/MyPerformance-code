@@ -84,9 +84,9 @@ namespace MyPerformance.Controls
             };
 
             Spacing = 2;
-            _hours.TextChanged += Hours_TextChanged;
-            _minutes.TextChanged += Minutes_TextChanged;
-            _seconds.TextChanged += Seconds_TextChanged;
+            _hours.TextChanged += OnHoursTextChanged;
+            _minutes.TextChanged += OnMinutesTextChanged;
+            _seconds.TextChanged += OnSecondsTextChanged;
             Add(_hours);
             Add(_separator1);
             Add(_minutes);
@@ -94,7 +94,7 @@ namespace MyPerformance.Controls
             Add(_seconds);
         }
 
-        private void Seconds_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnSecondsTextChanged(object sender, TextChangedEventArgs e)
         {
             isIntrfaceSignal = true;
 
@@ -121,7 +121,7 @@ namespace MyPerformance.Controls
 
         }
 
-        private void Minutes_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnMinutesTextChanged(object sender, TextChangedEventArgs e)
         {
             isIntrfaceSignal = true;
 
@@ -147,7 +147,7 @@ namespace MyPerformance.Controls
             isIntrfaceSignal = false;
         }
 
-        private void Hours_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnHoursTextChanged(object sender, TextChangedEventArgs e)
         {
             isIntrfaceSignal = true;
 

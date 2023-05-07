@@ -54,7 +54,9 @@ public partial class TimerPage : ContentPage
 
             if (leave)
             {
-                await Shell.Current.GoToAsync("..");
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object>() {
+                { "upd-main", 1 }
+                });
             }
         });
 
