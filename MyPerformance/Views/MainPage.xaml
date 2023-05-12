@@ -249,26 +249,40 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="PerformancesButton"
+                <Border
+                    x:Name="PerformancesButton"
                         HeightRequest="80"
                         WidthRequest="80"
-                        CornerRadius="15"
-                        HorizontalOptions="Center"
+                    HorizontalOptions="Center"
                         VerticalOptions="Center"
                         BackgroundColor="#A6E1FA"
-                        Clicked="Button_Clicked_1"
-                        Grid.Column="0">
-                </Button>
-                <Button x:Name="StatisticsButton"
+                    StrokeThickness="0"
+                    Grid.Column="0">
+                    <Image Source="file_text.png" />
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PerformancesListButton_Clicked" />
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border
+                    x:Name="StatisticsButton"
                         HeightRequest="80"
                         WidthRequest="80"
-                        CornerRadius="15"
-                        HorizontalOptions="Center"
+                    HorizontalOptions="Center"
                         VerticalOptions="Center"
                         BackgroundColor="#A6E1FA"
-                        Clicked="Button_Clicked_2"
-                        Grid.Column="1">
-                </Button>
+                    StrokeThickness="0"
+                    Grid.Column="1">
+                    <Image Source="target.png" />
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="StatisticsButton_Clicked" />
+                    </Border.GestureRecognizers>
+                </Border>
             </Grid>
         </Border>
     </Grid>

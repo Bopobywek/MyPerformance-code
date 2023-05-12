@@ -44,13 +44,13 @@ namespace MyPerformance.Platforms.Android
             }
         }
 
-        private static long GetDateTimeInJavaMs(int year, int month, int day, int hr, int min)
+        private static long GetDateTimeInJavaMs(int year, int month, int day, int hours, int minutes)
         {
             Java.Util.Calendar c = Java.Util.Calendar.GetInstance(Java.Util.TimeZone.Default);
 
             c.Set(Java.Util.CalendarField.DayOfMonth, day);
-            c.Set(Java.Util.CalendarField.HourOfDay, hr);
-            c.Set(Java.Util.CalendarField.Minute, min);
+            c.Set(Java.Util.CalendarField.HourOfDay, hours);
+            c.Set(Java.Util.CalendarField.Minute, minutes);
             c.Set(Java.Util.CalendarField.Month, month - 1);
             c.Set(Java.Util.CalendarField.Year, year);
 

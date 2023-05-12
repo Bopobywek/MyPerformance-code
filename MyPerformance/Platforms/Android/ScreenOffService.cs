@@ -18,9 +18,9 @@ namespace MyPerformance.Platforms.Android
     [Service(Label = nameof(ScreenOffService))]
     public class ScreenOffService : Service
     {
-        private string NOTIFICATION_CHANNEL_ID = "1000";
-        private int NOTIFICATION_ID = 1;
-        private string NOTIFICATION_CHANNEL_NAME = "notification";
+        private const string NOTIFICATION_CHANNEL_ID = "1000";
+        private const int NOTIFICATION_ID = 1;
+        private const string NOTIFICATION_CHANNEL_NAME = "notification";
         private readonly ScreenOffBroadcastReceiver _screenOffBroadcastReceiver;
 
         public ScreenOffService()
@@ -98,7 +98,7 @@ namespace MyPerformance.Platforms.Android
             MainActivity.ActivityCurrent.StartService(stopIntent);
         }
 
-        private void createNotificationChannel(NotificationManager notificationMnaManager)
+        private void CreateNotificationChannel(NotificationManager notificationMnaManager)
         {
             var channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME,
             NotificationImportance.Low);
@@ -111,13 +111,13 @@ namespace MyPerformance.Platforms.Android
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                createNotificationChannel(notifcationManager);
+                CreateNotificationChannel(notifcationManager);
             }
 
             var notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
             notification.SetAutoCancel(false);
             notification.SetOngoing(true);
-            notification.SetSmallIcon(Resource.Mipmap.appicon);
+            notification.SetSmallIcon(Resource.Drawable.ic_clock_black_24dp);
             notification.SetContentTitle("MyPerformance");
             notification.SetContentText("Запущен таймер для выступления...");
 

@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:custom="clr-namespace:MyPerformance.Controls"
+             BackgroundColor="#FEFCFB"
              Title="">
     <Grid Padding="10">
         <Grid.RowDefinitions>
@@ -69,12 +70,20 @@
                         WidthRequest="{Binding Source={x:Reference ColorButton}, Path=Width}"
                         HeightRequest="{Binding Source={x:Reference ColorButton}, Path=Height}"
                         BackgroundColor="{Binding Color}" />
-                        <Button x:Name="ColorButton" Text="Выбрать цвет" Command="{ Binding SelectColor }" />
+                        <Button x:Name="ColorButton"
+                                Text="Выбрать цвет"
+                                FontFamily="NunitoBold"
+                                BackgroundColor="#034078"
+                                Command="{ Binding SelectColor }" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
-        <Button Grid.Row="1" Text="Сохранить" Command="{Binding SaveCommand}"></Button>
+        <Button Grid.Row="1"
+                Text="Сохранить"
+                FontFamily="NunitoBold"
+                BackgroundColor="#1282A2"
+                Command="{Binding SaveCommand}"></Button>
     </Grid>
 
 </ContentPage>

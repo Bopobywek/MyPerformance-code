@@ -111,12 +111,13 @@ namespace MyPerformance.ViewModels
         public void SetNotificationToCalendar()
         {
 #if ANDROID
+            var beginTime = new DateTime(Date.Ticks + Time.Ticks);
             var calendarEvent = new CalendarEvent
             {
                 Title = Name.Value,
-                BeginTime = Date,
+                BeginTime = beginTime,
                 IsEndTimeSet = true,
-                EndTime = Date.AddTicks(new TimeSpan(PerformanceParts.Sum(x => x.Duration.Ticks)).Ticks)
+                EndTime = beginTime.AddTicks(PerformanceParts.Sum(x => x.Duration.Ticks))
             };
 
             CalendarEventService.SetEvent(calendarEvent);

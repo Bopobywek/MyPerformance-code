@@ -173,7 +173,7 @@ namespace MyPerformance.Controls
             isIntrfaceSignal = false;
         }
 
-        public static void OnTimeChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnTimeChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var timePicker = (TimeSpanPicker)bindable;
 
