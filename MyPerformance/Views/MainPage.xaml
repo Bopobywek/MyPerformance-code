@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyPerformance.Models"
+             xmlns:vm="clr-namespace:MyPerformance.ViewModels"
+             x:Class="MyPerformance.MainPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid BackgroundColor="#FEFCFB">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <CollectionView x:Name="StatisticsView"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start"
+                        Grid.Row="0"
+                        IsVisible="False"
+                        ItemsSource="{Binding Performances}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.Header>
+                <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:PerformanceModel">
+                    <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15" />
+                        </Border.StrokeShape>
+                        <Grid Padding="20" RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Text="{Binding Name}"
+                                   LineBreakMode="WordWrap"
+                                   WidthRequest="180"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAutoScalingEnabled="True"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
+                            <HorizontalStackLayout  Grid.Column="0" Grid.Row="1">
+                                <Label 
+                                   Text="Количество выступлений: "
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding NumberOfLaunches}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="0" Grid.Row="2">
+                                <Label 
+                                   Text="Среднее время выступления: "
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding AverageDuration}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Column="0" Grid.Row="3">
+                                <Label 
+                                   Text="Среднее время задержки: "
+                                   FontFamily="NunitoBold"
+                                   HorizontalOptions="Start"
+                                   HeightRequest="20" />
+                                <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding AverageDelayTime}"
+                                   HorizontalOptions="Start"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                            <Button Text="Сбросить историю"
+                                    CornerRadius="15"
+                                    BackgroundColor="#1282A2"
+                                    FontFamily="NunitoBold"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ClearStatisticsCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Grid.Row="4"></Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <RefreshView x:Name="PerformancesView"
+                        Grid.Row="0"
+                        Margin="0,0,0,0"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        Command="{Binding RefreshCommand}"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start">
+            <CollectionView x:Name="PerformanceCollection"
+                        VerticalScrollBarVisibility="Never"
+                        ItemsSource="{Binding Performances}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Button IsVisible="False" IsEnabled="False" HeightRequest="10" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:PerformanceModel">
+                        <Border StrokeThickness="0" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" BackgroundColor="#a6e1fa">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15" />
+                            </Border.StrokeShape>
+                            <Grid Padding="20" RowSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.ColumnSpan="2"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Text="{Binding Name}"
+                                   LineBreakMode="WordWrap"
+                                   WidthRequest="180"
+                                   FontFamily="NunitoBold"
+                                   FontAutoScalingEnabled="True"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
+                                <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
+                                    <Image 
+                                   Source="clock.png"
+                                    HorizontalOptions="Center"
+                                   HeightRequest="20" />
+                                    <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Duration}"
+                                    HorizontalOptions="Center"
+                                   FontFamily="NunitoBold"
+                                   FontAttributes="Bold" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2">
+                                    <Image 
+                                   Source="calendar.png"
+                                    HorizontalOptions="Center"
+                                   IsVisible="{Binding IsDateSet}"
+                                   HeightRequest="20" />
+                                    <Label
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Date, StringFormat='{0:dd MMMM yyyy HH:mm}'}"
+                                   HorizontalOptions="Center"
+                                   FontFamily="NunitoBold"
+                                   IsVisible="{Binding IsDateSet}"
+                                   FontAttributes="Bold" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout HorizontalOptions="End"
+                                                       VerticalOptions="Start"
+                                                   Grid.Column="2"
+                                                   Grid.Row="0"
+                                                   Grid.ColumnSpan="2"
+                                                   Spacing="10">
+                                    <Image
+                                   Source="delete.png"
+                                   HeightRequest="25">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image
+                                   Source="edit.png"
+                                   HeightRequest="25">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=EditCommand}"
+                                                        CommandParameter="{Binding Id}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </HorizontalStackLayout>
+                                <Image VerticalOptions="End"
+                                   HorizontalOptions="End"
+                                   Grid.Column="3" Grid.Row="1" Grid.RowSpan="2"
+                                   Source="run.png"
+                                   HeightRequest="25">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=RunCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <Button
+                    Opacity="20"
+                    HeightRequest="127"
+                    CornerRadius="15"
+                    Margin="30,0,30,5"
+                    BackgroundColor="#80A6E1FA"
+                    TextColor="#80000000"
+                    FontAutoScalingEnabled="True"
+                    FontFamily="NunitoBold"
+                    FontSize="16"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill"
+                    Command="{Binding AddCommand}"
+                    Clicked="Button_Clicked">
+                        <Button.Text>
+                            Создать новое выступление
+                        </Button.Text>
+                    </Button>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+        <Border Grid.Row="1" Margin="10,0,10,20" StrokeThickness="0" BackgroundColor="#1282A2">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="15" />
+            </Border.StrokeShape>
+            <Grid Padding="20"
+                  ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border
+                    x:Name="PerformancesButton"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                    HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="#A6E1FA"
+                    StrokeThickness="0"
+                    Grid.Column="0">
+                    <Image Source="file_text.png" />
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PerformancesListButton_Clicked" />
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border
+                    x:Name="StatisticsButton"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                    HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="#A6E1FA"
+                    StrokeThickness="0"
+                    Grid.Column="1">
+                    <Image Source="target.png" />
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="StatisticsButton_Clicked" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+
+</ContentPage>

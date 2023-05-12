@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyPerformance.Views.TimerPage"
+             xmlns:converters="clr-namespace:MyPerformance.Converters"
+             BackgroundColor="#FEFCFB"
+             Title="Таймер">
+    <ContentPage.Resources>
+        <converters:BoolToTimerStateImageNameConverter x:Key="boolToTimerImage" />
+    </ContentPage.Resources>
+    <Grid Padding="20,15,20,20" RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="TotalTimeRow" Height="12*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="45*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        
+        <Label Text="{Binding Time}"
+               Grid.Row="0"
+               FontAutoScalingEnabled="True"
+               FontFamily="NunitoBold"
+               FontSize="48"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+            <Label Text="{Binding PartTime}"
+               Grid.Row="1"
+               FontAutoScalingEnabled="True"
+               FontFamily="NunitoBold"
+               FontSize="40"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+        <Border Grid.Row="2" MinimumHeightRequest="50" MinimumWidthRequest="50" StrokeThickness="0" BackgroundColor="{Binding Color}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   FontSize="18"
+                   Padding="10"
+                   LineBreakMode="WordWrap"
+                   FontFamily="NunitoBold"
+                   Text="{Binding PartName}" />
+        </Border>
+
+        <Border Grid.Row="3" MinimumHeightRequest="100" MinimumWidthRequest="50" StrokeThickness="0" BackgroundColor="#a6e1fa">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="16"
+                   Padding="15"
+                   LineBreakMode="CharacterWrap"
+                   FontFamily="NunitoBold"
+                   Text="{Binding PartNote}" />
+        </Border>
+
+        <Border Padding="10" Grid.Row="4" StrokeThickness="0" BackgroundColor="#1282A2">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+            <Grid x:Name="ButtonGrid"
+                  ColumnSpacing="10" HorizontalOptions="Fill" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border HeightRequest="70"
+                        WidthRequest="70"
+                        BackgroundColor="#A6E1FA"
+                        StrokeThickness="0"
+                           IsEnabled="{Binding IsSkipBackwardAvailable}"
+                        Grid.Column="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Image Source="skip_backwards.png"
+                             BackgroundColor="Transparent"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"
+                           HeightRequest="50"
+                           IsEnabled="{Binding IsSkipBackwardAvailable}"
+                           WidthRequest="50">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                        Command="{Binding SkipBackwardCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+        </Border>
+
+        <Border HeightRequest="70"
+                        WidthRequest="70"
+                        BackgroundColor="#A6E1FA"
+                        StrokeThickness="0"
+                        Grid.Column="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Image Source="{Binding IsTimerRunning, Converter={StaticResource boolToTimerImage}}"
+                                 BackgroundColor="Transparent"
+                           VerticalOptions="CenterAndExpand"
+                           IsOpaque="True"
+                           HorizontalOptions="CenterAndExpand"
+                           HeightRequest="50"
+                           WidthRequest="50">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                        Command="{Binding ChangeTimerStateCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Border>
+
+                <Border HeightRequest="70"
+                        WidthRequest="70"
+                        BackgroundColor="#A6E1FA"
+                        StrokeThickness="0"
+                        IsEnabled="{Binding IsSkipForwardAvailable}"
+                        Grid.Column="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Image Source="skip_forwards.png"
+                                 BackgroundColor="Transparent"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           IsEnabled="{Binding IsSkipForwardAvailable}"
+                           HeightRequest="50"
+                           WidthRequest="50">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                        Command="{Binding SkipForwardCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Border>
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

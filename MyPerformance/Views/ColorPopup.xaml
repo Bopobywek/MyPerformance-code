@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+               x:Class="MyPerformance.Views.ColorPopup">
+
+    <Frame BackgroundColor="#FEFCFB">
+        <Grid Padding="10" RowSpacing="10" ColumnSpacing="10" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border
+            Grid.Row="0" Grid.Column="0"
+                HeightRequest="100"
+                   WidthRequest="100"
+                VerticalOptions="Start">
+                <controls:ColorPicker 
+                    x:Name="ColorPicker"
+                    ColorFlowDirection="Horizontal"
+                    ColorSpectrumStyle="TintToHueToShadeStyle"
+                    PointerRingBorderUnits="0.4"
+                    PointerRingDiameterUnits="0.9"
+                    PickedColorChanged="ColorPicker_PickedColorChanged">
+                </controls:ColorPicker>
+            </Border>
+            <Border x:Name="ColorResult"
+            Grid.Row="0" Grid.Column="1"
+                    WidthRequest="100"
+                    HeightRequest="100">
+            </Border>
+            <Button Text="Установить цвет"
+                CornerRadius="15"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="1"
+                    BackgroundColor="#1282A2"
+                    FontFamily="NunitoBold"
+                Clicked="OnSetColorButton_Clicked"></Button>
+        </Grid>
+    </Frame>
+</toolkit:Popup>

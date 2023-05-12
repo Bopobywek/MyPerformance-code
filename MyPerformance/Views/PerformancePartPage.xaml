@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyPerformance.Views.PerformancePartPage"
+             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:custom="clr-namespace:MyPerformance.Controls"
+             BackgroundColor="#FEFCFB"
+             Title="">
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="10" Spacing="30">
+                <VerticalStackLayout >
+                    <Entry Placeholder="Название"
+                       x:Name="NameInput"
+                       MaxLength="128"
+                       FontFamily="NunitoBold"
+                       FontSize="24"
+                           Text="{Binding Name.Value}"
+                       IsTextPredictionEnabled="True">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateNameCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <BoxView CornerRadius="5" HeightRequest="3"
+                        VerticalOptions="Center"
+                        Opacity="0.8"
+                        Color="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="Заметка" 
+                FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <Editor
+                x:Name="NoteEditor"
+                Placeholder="Введите текст заметки..."
+                AutoSize="TextChanges"
+                FontFamily="NunitoBold"
+                MaxLength="256"
+                WidthRequest="{Binding Source={x:Reference NameInput}, Path=Width}"
+                    Text="{Binding Description}"
+                MinimumWidthRequest="100" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="Длительность (чч:мм:сс)" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <custom:TimeSpanPicker x:Name="TimePick" Time="{Binding Time.Value, Mode=TwoWay}"/>
+                    <!--<HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label Margin="0,7,0,0" FontSize="30" Text=":" />
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                    <Label Margin="0,7,0,0" FontSize="30" Text=":" />
+                    <Entry FontSize="30" MaxLength="2" Keyboard="Numeric" Placeholder="00" />
+                </HorizontalStackLayout>-->
+                </VerticalStackLayout>
+
+
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Цвет части" 
+                        FontFamily="NunitoBold"
+                       TextColor="Gray"></Label>
+                    <HorizontalStackLayout Spacing="10">
+                        <Border StrokeThickness="3" x:Name="ColorBlock"
+                        WidthRequest="{Binding Source={x:Reference ColorButton}, Path=Width}"
+                        HeightRequest="{Binding Source={x:Reference ColorButton}, Path=Height}"
+                        BackgroundColor="{Binding Color}" />
+                        <Button x:Name="ColorButton"
+                                Text="Выбрать цвет"
+                                FontFamily="NunitoBold"
+                                BackgroundColor="#034078"
+                                Command="{ Binding SelectColor }" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1"
+                Text="Сохранить"
+                FontFamily="NunitoBold"
+                BackgroundColor="#1282A2"
+                Command="{Binding SaveCommand}"></Button>
+    </Grid>
+
+</ContentPage>
